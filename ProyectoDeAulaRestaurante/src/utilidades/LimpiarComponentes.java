@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.restaurante.utilidades;
+package utilidades;
 
 import java.awt.Component;
 import javax.swing.JPanel;
@@ -34,6 +34,10 @@ public class LimpiarComponentes {
 
             if (item.getClass().getName().equals("javax.swing.JPasswordField")) {
                 ((javax.swing.JPasswordField) item).setText("");
+            }
+
+            if (item.getClass().getName().equals("javax.swing.JRadioButton")) {
+                ((javax.swing.JRadioButton) item).setSelected(false);
             }
 
             if (item.getClass().getName().equals("javax.swing.JTextArea")) {
