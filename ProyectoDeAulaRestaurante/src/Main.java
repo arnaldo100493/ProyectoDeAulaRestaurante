@@ -1,5 +1,5 @@
 
-import vista.VistaIniciarSesion;
+import com.restaurante.vista.VistaIniciarSesion;
 
 public class Main {
     
