@@ -1,12 +1,12 @@
 package com.restaurante.control;
 
+import com.restaurante.utilidades.Lista;
 import java.io.IOException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.List;
 import java.io.Serializable;
 import java.io.ObjectOutput;
 
@@ -18,7 +18,7 @@ public class ControlArchivo implements Serializable {
 
     }
 
-    public static void guardarArchivo(List listado, String archivo) throws IOException {
+    public static void guardarArchivo(Lista listado, String archivo) throws IOException {
         ObjectOutput output = null;
         try {
             File file = new File(ruta, archivo);
@@ -36,14 +36,14 @@ public class ControlArchivo implements Serializable {
         }
     }
 
-    public static List leerArchivo(String archivo) throws IOException, ClassNotFoundException {
-        List<Object> listado = null;
+    public static Lista leerArchivo(String archivo) throws IOException, ClassNotFoundException {
+        Lista<Object> listado = null;
         ObjectInputStream input = null;
         try {
             File file = new File(ruta, archivo);
             if (file.exists()) {
                 input = new ObjectInputStream(new FileInputStream(file));
-                listado = (List<Object>) input.readObject();
+                listado = (Lista<Object>) input.readObject();
             }
         } finally {
             if (input != null) {

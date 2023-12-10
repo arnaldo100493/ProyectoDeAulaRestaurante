@@ -7,27 +7,27 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import com.restaurante.modelo.Cliente;
+import com.restaurante.utilidades.Lista;
+import com.restaurante.utilidades.ListaLinkedList;
+import com.restaurante.utilidades.Mensajes;
 
 public class ControlCliente implements Controlador, Serializable {
 
-    private static List<Cliente> listadoClientes;
+    private static Lista<Cliente> listadoClientes;
     private static final String ruta = "../ProyectoDeAulaRestaurante/datos/Clientes.txt/";
 
     public ControlCliente() {
         listadoClientes = null;
     }
 
-    public static void setListadoClientes(List<Cliente> listado) {
+    public static void setListadoClientes(Lista<Cliente> listado) {
         listadoClientes = listado;
     }
 
-    public static List<Cliente> getListadoClientes() {
+    public static Lista<Cliente> getListadoClientes() {
         return listadoClientes;
     }
 
@@ -35,14 +35,14 @@ public class ControlCliente implements Controlador, Serializable {
         try {
             listadoClientes = ControlArchivo.leerArchivo("Clientes");
             if (listadoClientes == null) {
-                listadoClientes = new LinkedList<>();
+                listadoClientes = new ListaLinkedList<>();
             }
         } catch (IOException | ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "Error al leer el archivo: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al leer el archivo: " + ex.getMessage(), "Error");
         }
     }
 
-    // Método para escribir en el fichero
+    //Método para escribir en el fichero
     @Override
     public void escribir() {
         FileWriter fichero = null;
@@ -50,11 +50,11 @@ public class ControlCliente implements Controlador, Serializable {
         try {
             fichero = new FileWriter(ruta);
             escribir = new PrintWriter(fichero);
-            for (int i = 0; i < listadoClientes.size(); i++) {
-                escribir.println(listadoClientes.get(i).toString());
+            for (int i = 0; i < listadoClientes.tamanio(); i++) {
+                escribir.println(listadoClientes.obtener(i).toString());
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Fichero NO Encontrado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Fichero NO Encontrado: " + ex.getMessage(), "Error");
             ex.printStackTrace();
         } finally {
             try {
@@ -67,7 +67,7 @@ public class ControlCliente implements Controlador, Serializable {
         }
     }
 
-    // Método para cargar los datos del fichero a la lista
+    //Método para cargar los datos del fichero a la lista
     @Override
     public void cargarDatos() {
         File fichero = null;
@@ -91,32 +91,32 @@ public class ControlCliente implements Controlador, Serializable {
             String email;
 
             while ((linea = bufLeer.readLine()) != null) {
-                // Identificación
+                //Identificación
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 identificacion = aux;
                 linea = linea.substring(posicion + 1);
-                // Nombre
+                //Nombre
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 nombre = aux;
                 linea = linea.substring(posicion + 1);
-                // Apellido
+                //Apellido
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 apellido = aux;
                 linea = linea.substring(posicion + 1);
-                // Sexo
+                //Sexo
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 sexo = aux;
                 linea = linea.substring(posicion + 1);
-                // Teléfono
+                //Teléfono
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 telefono = aux;
                 linea = linea.substring(posicion + 1);
-                // Dirección y Email
+                //Dirección y Email
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 direccion = aux;
@@ -126,7 +126,7 @@ public class ControlCliente implements Controlador, Serializable {
             }
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Fichero NO Encontrado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Fichero NO Encontrado: " + ex.getMessage(), "Error");
             ex.printStackTrace();
         } finally {
             try {
@@ -146,16 +146,16 @@ public class ControlCliente implements Controlador, Serializable {
                 this.inicializar();
                 Cliente cliente = (Cliente) objeto;
                 if (!this.existe(cliente.getIdentificacion())) {
-                    listadoClientes.add(cliente);
+                    listadoClientes.agregar(cliente);
                     ControlArchivo.guardarArchivo(listadoClientes, "Clientes");
                     this.escribir();
-                    JOptionPane.showMessageDialog(null, "Cliente registrado con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    Mensajes.mostrarMensajeInformativo("Cliente registrado con éxito", "Información");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Este cliente ya existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    Mensajes.mostrarMensajeAdvertencia("Este cliente ya existe", "Advertencia");
                 }
             }
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error al registrar el cliente: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al registrar el cliente: " + ex.getMessage(), "Error");
         }
     }
 
@@ -164,10 +164,9 @@ public class ControlCliente implements Controlador, Serializable {
         this.inicializar();
         String id = identificacion;
         Cliente cliente = null;
-        for (Cliente c : listadoClientes) {
-            if (c.getIdentificacion().equals(id)) {
-                cliente = c;
-            }
+        for (int i = 0; i < listadoClientes.tamanio(); i++) {
+            if (listadoClientes.obtener(i).getIdentificacion().equals(id));
+            cliente = listadoClientes.obtener(i);
         }
         return cliente;
     }
@@ -177,8 +176,8 @@ public class ControlCliente implements Controlador, Serializable {
         this.inicializar();
         boolean estado = false;
         Cliente cliente = this.buscar(identificacion);
-        for (int i = 0; i < listadoClientes.size(); i++) {
-            if (listadoClientes.get(i).getIdentificacion().equals(identificacion)) {
+        for (int i = 0; i < listadoClientes.tamanio(); i++) {
+            if (listadoClientes.obtener(i).getIdentificacion().equals(identificacion)) {
                 estado = true;
             }
         }
@@ -196,15 +195,15 @@ public class ControlCliente implements Controlador, Serializable {
         try {
             this.inicializar();
             cliente = this.buscar(identificacion);
-            for (int i = 0; i < listadoClientes.size(); i++) {
-                if (listadoClientes.get(i).getIdentificacion().equals(identificacion) && cliente != null) {
-                    cliente = listadoClientes.get(i);
+            for (int i = 0; i < listadoClientes.tamanio(); i++) {
+                if (listadoClientes.obtener(i).getIdentificacion().equals(identificacion) && cliente != null) {
+                    cliente = listadoClientes.obtener(i);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Este cliente no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    Mensajes.mostrarMensajeAdvertencia("Este cliente no existe", "Advertencia");
                 }
             }
         } catch (NullPointerException ex) {
-            JOptionPane.showMessageDialog(null, "Error al consultar el cliente: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al consultar el cliente: " + ex.getMessage(), "Error");
         }
         return cliente;
     }
@@ -214,16 +213,18 @@ public class ControlCliente implements Controlador, Serializable {
         try {
             this.inicializar();
             ((DefaultTableModel) tabla.getModel()).setNumRows(0);
-            for (Cliente cliente : listadoClientes) {
+
+            for (int i = 0; i < listadoClientes.tamanio(); i++) {
+                Cliente cliente = listadoClientes.obtener(i);
                 ((DefaultTableModel) tabla.getModel()).addRow(new Object[]{cliente.getIdentificacion(), cliente.getNombre(), cliente.getApellido(), cliente.getDireccion(), cliente.getTelefono(), cliente.getCorreoElectronico(), cliente.getSexo(), cliente.getFechaRegistro()});
             }
         } catch (NullPointerException ex) {
-            JOptionPane.showMessageDialog(null, "Error al listar el empleado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al listar el cliente: " + ex.getMessage(), "Error");
         }
     }
 
     @Override
-    public List<Cliente> listar() {
+    public Lista<Cliente> listar() {
         return listadoClientes;
     }
 
@@ -233,20 +234,20 @@ public class ControlCliente implements Controlador, Serializable {
             if (objeto instanceof Cliente) {
                 this.inicializar();
                 Cliente cliente = (Cliente) objeto;
-                for (int i = 0; i < listadoClientes.size(); i++) {
-                    if (listadoClientes.get(i).getIdentificacion().equals(cliente.getIdentificacion())) {
-                        listadoClientes.remove(i);
-                        listadoClientes.add(cliente);
+                for (int i = 0; i < listadoClientes.tamanio(); i++) {
+                    if (listadoClientes.obtener(i).getIdentificacion().equals(cliente.getIdentificacion())) {
+                        listadoClientes.remover(i);
+                        listadoClientes.agregar(cliente);
                         ControlArchivo.guardarArchivo(listadoClientes, "Clientes");
                         this.escribir();
-                        JOptionPane.showMessageDialog(null, "Cliente modificado con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+                        Mensajes.mostrarMensajeInformativo("Cliente modificado con éxito", "Información");
                     } else {
-                        JOptionPane.showMessageDialog(null, "Este cliente no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                        Mensajes.mostrarMensajeAdvertencia("Este cliente no existe", "Advertencia");
                     }
                 }
             }
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error al modificar el cliente: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al modificar el cliente: " + ex.getMessage(), "Error");
         }
     }
 
@@ -256,23 +257,23 @@ public class ControlCliente implements Controlador, Serializable {
         try {
             this.inicializar();
             cliente = this.buscar(identificacion);
-            for (int i = 0; i < listadoClientes.size(); i++) {
-                if (listadoClientes.get(i).getIdentificacion().equals(identificacion) && cliente != null) {
-                    int opcion = JOptionPane.showOptionDialog(null, "¿Está seguro que desea eliminar este cliente llamado " + cliente.getNombre() + " " + cliente.getApellido() + " ? ", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"SI", "NO"}, "SI");
+            for (int i = 0; i < listadoClientes.tamanio(); i++) {
+                if (listadoClientes.obtener(i).getIdentificacion().equals(identificacion) && cliente != null) {
+                    int opcion = Mensajes.mostrarMensajeOpcion("¿Está seguro que desea eliminar este cliente llamado " + cliente.getNombre() + " " + cliente.getApellido() + " ? ", "Confirmar Eliminación");
                     if (opcion != -1) {
                         if ((opcion + 1) == 1) {
-                            listadoClientes.remove(cliente);
+                            listadoClientes.remover(cliente);
                             ControlArchivo.guardarArchivo(listadoClientes, "Clientes");
                             this.escribir();
-                            JOptionPane.showMessageDialog(null, "Empleado eliminado con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+                            Mensajes.mostrarMensajeInformativo("Cliente eliminado con éxito", "Información");
                         }
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Este empleado no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    Mensajes.mostrarMensajeAdvertencia("Este cliente no existe", "Advertencia");
                 }
             }
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error al eliminar el empleado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al eliminar el cliente: " + ex.getMessage(), "Error");
         }
     }
 }

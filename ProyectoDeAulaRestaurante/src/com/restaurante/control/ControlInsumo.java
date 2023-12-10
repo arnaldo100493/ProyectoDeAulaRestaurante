@@ -7,27 +7,27 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import com.restaurante.modelo.Insumo;
+import com.restaurante.utilidades.Lista;
+import com.restaurante.utilidades.ListaLinkedList;
+import com.restaurante.utilidades.Mensajes;
 
 public class ControlInsumo implements Controlador, Serializable {
 
-    private static List<Insumo> listadoInsumos;
+    private static Lista<Insumo> listadoInsumos;
     private static final String ruta = "../ProyectoDeAulaRestaurante/datos/Insumos.txt/";
 
     public ControlInsumo() {
         listadoInsumos = null;
     }
 
-    public static void setListadoInsumos(List<Insumo> listado) {
+    public static void setListadoInsumos(Lista<Insumo> listado) {
         listadoInsumos = listado;
     }
 
-    public static List<Insumo> getListadoInsumos() {
+    public static Lista<Insumo> getListadoInsumos() {
         return listadoInsumos;
     }
 
@@ -35,14 +35,14 @@ public class ControlInsumo implements Controlador, Serializable {
         try {
             listadoInsumos = ControlArchivo.leerArchivo("Insumos");
             if (listadoInsumos == null) {
-                listadoInsumos = new LinkedList<>();
+                listadoInsumos = new ListaLinkedList<>();
             }
         } catch (IOException | ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "Error al leer el archivo: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al leer el archivo: " + ex.getMessage(), "Error");
         }
     }
 
-    // Método para escribir en el fichero
+    //Método para escribir en el fichero
     @Override
     public void escribir() {
         FileWriter fichero = null;
@@ -50,11 +50,11 @@ public class ControlInsumo implements Controlador, Serializable {
         try {
             fichero = new FileWriter(ruta);
             escribir = new PrintWriter(fichero);
-            for (int i = 0; i < listadoInsumos.size(); i++) {
-                escribir.println(listadoInsumos.get(i).toString());
+            for (int i = 0; i < listadoInsumos.tamanio(); i++) {
+                escribir.println(listadoInsumos.obtener(i).toString());
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Fichero NO Encontrado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Fichero NO Encontrado: " + ex.getMessage(), "Error");
             ex.printStackTrace();
         } finally {
             try {
@@ -67,7 +67,7 @@ public class ControlInsumo implements Controlador, Serializable {
         }
     }
 
-    // Método para cargar los datos del fichero a la lista
+    //Método para cargar los datos del fichero a la lista
     @Override
     public void cargarDatos() {
         File fichero = null;
@@ -91,39 +91,39 @@ public class ControlInsumo implements Controlador, Serializable {
             int cantidadMaxima;
 
             while ((linea = bufLeer.readLine()) != null) {
-                // Código
+                //Código
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 codigo = aux;
                 linea = linea.substring(posicion + 1);
-                // Nombre
+                //Nombre
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 nombre = aux;
                 linea = linea.substring(posicion + 1);
-                // Descripcion
+                //Descripción
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 descripcion = aux;
                 linea = linea.substring(posicion + 1);
-                // Precio
+                //Precio
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 precio = Integer.parseInt(aux);
                 linea = linea.substring(posicion + 1);
-                // Cantidad
+                //Cantidad
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 cantidad = Integer.parseInt(aux);
                 linea = linea.substring(posicion + 1);
 
-                // Cantidad Mínima
+                //Cantidad Mínima
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 cantidadMinima = Integer.parseInt(aux);
                 linea = linea.substring(posicion + 1);
 
-                // Cantidad Máxima
+                //Cantidad Máxima
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 cantidadMaxima = Integer.parseInt(aux);
@@ -132,7 +132,7 @@ public class ControlInsumo implements Controlador, Serializable {
             }
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Fichero NO Encontrado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Fichero NO Encontrado: " + ex.getMessage(), "Error");
             ex.printStackTrace();
         } finally {
             try {
@@ -152,16 +152,16 @@ public class ControlInsumo implements Controlador, Serializable {
                 this.inicializar();
                 Insumo insumo = (Insumo) objeto;
                 if (!this.existe(insumo.getCodigo())) {
-                    listadoInsumos.add(insumo);
+                    listadoInsumos.agregar(insumo);
                     ControlArchivo.guardarArchivo(listadoInsumos, "Insumos");
                     this.escribir();
-                    JOptionPane.showMessageDialog(null, "Insumo registrado con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    Mensajes.mostrarMensajeInformativo("Insumo registrado con éxito", "Información");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Este insumo ya existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    Mensajes.mostrarMensajeAdvertencia("Este insumo ya existe", "Advertencia");
                 }
             }
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error al registrar el insumo: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al registrar el insumo: " + ex.getMessage(), "Error");
         }
     }
 
@@ -170,10 +170,9 @@ public class ControlInsumo implements Controlador, Serializable {
         this.inicializar();
         String c = codigo;
         Insumo insumo = null;
-        for (Insumo i : listadoInsumos) {
-            if (i.getCodigo().equals(c)) {
-                insumo = i;
-            }
+        for (int i = 0; i < listadoInsumos.tamanio(); i++) {
+            if (listadoInsumos.obtener(i).getCodigo().equals(c));
+            insumo = listadoInsumos.obtener(i);
         }
         return insumo;
     }
@@ -183,8 +182,8 @@ public class ControlInsumo implements Controlador, Serializable {
         this.inicializar();
         boolean estado = false;
         Insumo insumo = this.buscar(codigo);
-        for (int i = 0; i < listadoInsumos.size(); i++) {
-            if (listadoInsumos.get(i).getCodigo().equals(codigo)) {
+        for (int i = 0; i < listadoInsumos.tamanio(); i++) {
+            if (listadoInsumos.obtener(i).getCodigo().equals(codigo)) {
                 estado = true;
             }
         }
@@ -202,15 +201,15 @@ public class ControlInsumo implements Controlador, Serializable {
         try {
             this.inicializar();
             insumo = this.buscar(codigo);
-            for (int i = 0; i < listadoInsumos.size(); i++) {
-                if (listadoInsumos.get(i).getCodigo().equals(codigo) && insumo != null) {
-                    insumo = listadoInsumos.get(i);
+            for (int i = 0; i < listadoInsumos.tamanio(); i++) {
+                if (listadoInsumos.obtener(i).getCodigo().equals(codigo) && insumo != null) {
+                    insumo = listadoInsumos.obtener(i);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Este insumo no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    Mensajes.mostrarMensajeAdvertencia("Este insumo no existe", "Advertencia");
                 }
             }
         } catch (NullPointerException ex) {
-            JOptionPane.showMessageDialog(null, "Error al consultar el insumo: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al consultar el insumo: " + ex.getMessage(), "Error");
         }
         return insumo;
     }
@@ -220,16 +219,17 @@ public class ControlInsumo implements Controlador, Serializable {
         try {
             this.inicializar();
             ((DefaultTableModel) tabla.getModel()).setNumRows(0);
-            for (Insumo insumo : listadoInsumos) {
+            for (int i = 0; i < listadoInsumos.tamanio(); i++) {
+                Insumo insumo = listadoInsumos.obtener(i);
                 ((DefaultTableModel) tabla.getModel()).addRow(new Object[]{insumo.getCodigo(), insumo.getNombre(), insumo.getDescripcion(), insumo.getPrecio(), insumo.getCantidad(), insumo.getCantidadMinima(), insumo.getCantidadMaxima()});
             }
         } catch (NullPointerException ex) {
-            JOptionPane.showMessageDialog(null, "Error al listar el insumo: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al listar el insumo: " + ex.getMessage(), "Error");
         }
     }
 
     @Override
-    public List<Insumo> listar() {
+    public Lista<Insumo> listar() {
         return listadoInsumos;
     }
 
@@ -239,20 +239,20 @@ public class ControlInsumo implements Controlador, Serializable {
             if (objeto instanceof Insumo) {
                 this.inicializar();
                 Insumo insumo = (Insumo) objeto;
-                for (int i = 0; i < listadoInsumos.size(); i++) {
-                    if (listadoInsumos.get(i).getCodigo().equals(insumo.getCodigo())) {
-                        listadoInsumos.remove(i);
-                        listadoInsumos.add(insumo);
+                for (int i = 0; i < listadoInsumos.tamanio(); i++) {
+                    if (listadoInsumos.obtener(i).getCodigo().equals(insumo.getCodigo())) {
+                        listadoInsumos.remover(i);
+                        listadoInsumos.agregar(insumo);
                         ControlArchivo.guardarArchivo(listadoInsumos, "Insumos");
                         this.escribir();
-                        JOptionPane.showMessageDialog(null, "Insumo modificado con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+                        Mensajes.mostrarMensajeInformativo("Insumo modificado con éxito", "Información");
                     } else {
-                        JOptionPane.showMessageDialog(null, "Este insumo no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                        Mensajes.mostrarMensajeAdvertencia("Este insumo no existe", "Advertencia");
                     }
                 }
             }
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error al modificar el insumo: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al modificar el insumo: " + ex.getMessage(), "Error");
         }
     }
 
@@ -262,23 +262,23 @@ public class ControlInsumo implements Controlador, Serializable {
         try {
             this.inicializar();
             insumo = this.buscar(codigo);
-            for (int i = 0; i < listadoInsumos.size(); i++) {
-                if (listadoInsumos.get(i).getCodigo().equals(codigo) && insumo != null) {
-                    int opcion = JOptionPane.showOptionDialog(null, "¿Está seguro que desea eliminar este insumo llamado " + insumo.getNombre() + " " + " ? ", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"SI", "NO"}, "SI");
+            for (int i = 0; i < listadoInsumos.tamanio(); i++) {
+                if (listadoInsumos.obtener(i).getCodigo().equals(codigo) && insumo != null) {
+                    int opcion = Mensajes.mostrarMensajeOpcion("¿Está seguro que desea eliminar este insumo llamado " + insumo.getNombre() + " ? ", "Confirmar Eliminación");
                     if (opcion != -1) {
                         if ((opcion + 1) == 1) {
-                            listadoInsumos.remove(insumo);
+                            listadoInsumos.remover(insumo);
                             ControlArchivo.guardarArchivo(listadoInsumos, "Insumos");
                             this.escribir();
-                            JOptionPane.showMessageDialog(null, "Insumo eliminado con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+                            Mensajes.mostrarMensajeInformativo("Insumo eliminado con éxito", "Información");
                         }
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Este insumo no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    Mensajes.mostrarMensajeAdvertencia("Este insumo no existe", "Advertencia");
                 }
             }
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error al eliminar el insumo: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al eliminar el insumo: " + ex.getMessage(), "Error");
         }
     }
 }

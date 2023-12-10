@@ -7,27 +7,27 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import com.restaurante.modelo.Producto;
+import com.restaurante.utilidades.Lista;
+import com.restaurante.utilidades.ListaLinkedList;
+import com.restaurante.utilidades.Mensajes;
 
 public class ControlProducto implements Controlador, Serializable {
 
-    private static List<Producto> listadoProductos;
+    private static Lista<Producto> listadoProductos;
     private static final String ruta = "../ProyectoDeAulaRestaurante/datos/Productos.txt/";
 
     public ControlProducto() {
         listadoProductos = null;
     }
 
-    public static void setListadoProductos(List<Producto> listado) {
+    public static void setListadoProductos(Lista<Producto> listado) {
         listadoProductos = listado;
     }
 
-    public static List<Producto> getListaClientes() {
+    public static Lista<Producto> getListaClientes() {
         return ControlProducto.listadoProductos;
     }
 
@@ -35,13 +35,14 @@ public class ControlProducto implements Controlador, Serializable {
         try {
             listadoProductos = ControlArchivo.leerArchivo("Productos");
             if (listadoProductos == null) {
-                listadoProductos = new LinkedList<>();
+                listadoProductos = new ListaLinkedList<>();
             }
         } catch (IOException | ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "Error al leer el archivo: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al leer el archivo: " + ex.getMessage(), "Error");
         }
     }
 
+    //Método para escribir en el fichero
     @Override
     public void escribir() {
         FileWriter fichero = null;
@@ -49,11 +50,11 @@ public class ControlProducto implements Controlador, Serializable {
         try {
             fichero = new FileWriter(ruta);
             escribir = new PrintWriter(fichero);
-            for (int i = 0; i < listadoProductos.size(); i++) {
-                escribir.println(listadoProductos.get(i).toString());
+            for (int i = 0; i < listadoProductos.tamanio(); i++) {
+                escribir.println(listadoProductos.obtener(i).toString());
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Fichero NO Encontrado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Fichero NO Encontrado: " + ex.getMessage(), "Error");
             ex.printStackTrace();
         } finally {
             try {
@@ -66,7 +67,7 @@ public class ControlProducto implements Controlador, Serializable {
         }
     }
 
-    // Método para cargar los datos del fichero a la lista
+    //Método para cargar los datos del fichero a la lista
     @Override
     public void cargarDatos() {
         File fichero = null;
@@ -88,27 +89,27 @@ public class ControlProducto implements Controlador, Serializable {
             int cantidad;
 
             while ((linea = bufLeer.readLine()) != null) {
-                // Código
+                //Código
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 codigo = aux;
                 linea = linea.substring(posicion + 1);
-                // Nombre
+                //Nombre
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 nombre = aux;
                 linea = linea.substring(posicion + 1);
-                // Descripcion
+                //Descripción
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 descripcion = aux;
                 linea = linea.substring(posicion + 1);
-                // Precio
+                //Precio
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 precio = Integer.parseInt(aux);
                 linea = linea.substring(posicion + 1);
-                // Cantidad
+                //Cantidad
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 cantidad = Integer.parseInt(aux);
@@ -117,7 +118,7 @@ public class ControlProducto implements Controlador, Serializable {
             }
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Fichero NO Encontrado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Fichero NO Encontrado: " + ex.getMessage(), "Error");
             ex.printStackTrace();
         } finally {
             try {
@@ -137,16 +138,16 @@ public class ControlProducto implements Controlador, Serializable {
                 this.inicializar();
                 Producto producto = (Producto) objeto;
                 if (!this.existe(producto.getCodigo())) {
-                    listadoProductos.add(producto);
+                    listadoProductos.agregar(producto);
                     ControlArchivo.guardarArchivo(ControlProducto.listadoProductos, "Productos");
                     this.escribir();
-                    JOptionPane.showMessageDialog(null, "Producto registrado con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    Mensajes.mostrarMensajeInformativo("Producto registrado con éxito", "Información");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Este producto ya existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    Mensajes.mostrarMensajeAdvertencia("Este producto ya existe", "Advertencia");
                 }
             }
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error al registrar el producto: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al registrar el producto: " + ex.getMessage(), "Error");
         }
     }
 
@@ -155,10 +156,9 @@ public class ControlProducto implements Controlador, Serializable {
         this.inicializar();
         String c = codigo;
         Producto producto = null;
-        for (Producto p : listadoProductos) {
-            if (p.getCodigo().equals(c)) {
-                producto = p;
-            }
+        for (int i = 0; i < listadoProductos.tamanio(); i++) {
+            if (listadoProductos.obtener(i).getCodigo().equals(c));
+            producto = listadoProductos.obtener(i);
         }
         return producto;
     }
@@ -168,8 +168,8 @@ public class ControlProducto implements Controlador, Serializable {
         this.inicializar();
         boolean estado = false;
         Producto producto = this.buscar(codigo);
-        for (int i = 0; i < listadoProductos.size(); i++) {
-            if (listadoProductos.get(i).getCodigo().equals(codigo)) {
+        for (int i = 0; i < listadoProductos.tamanio(); i++) {
+            if (listadoProductos.obtener(i).getCodigo().equals(codigo)) {
                 estado = true;
             }
         }
@@ -187,15 +187,15 @@ public class ControlProducto implements Controlador, Serializable {
         try {
             this.inicializar();
             producto = this.buscar(codigo);
-            for (int i = 0; i < listadoProductos.size(); i++) {
-                if (listadoProductos.get(i).getCodigo().equals(codigo) && producto != null) {
-                    producto = listadoProductos.get(i);
+            for (int i = 0; i < listadoProductos.tamanio(); i++) {
+                if (listadoProductos.obtener(i).getCodigo().equals(codigo) && producto != null) {
+                    producto = listadoProductos.obtener(i);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Este producto no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    Mensajes.mostrarMensajeAdvertencia("Este producto no existe", "Advertencia");
                 }
             }
         } catch (NullPointerException ex) {
-            JOptionPane.showMessageDialog(null, "Error al consultar el producto: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al consultar el producto: " + ex.getMessage(), "Error");
         }
         return producto;
     }
@@ -205,16 +205,17 @@ public class ControlProducto implements Controlador, Serializable {
         try {
             this.inicializar();
             ((DefaultTableModel) tabla.getModel()).setNumRows(0);
-            for (Producto producto : listadoProductos) {
+            for (int i = 0; i < listadoProductos.tamanio(); i++) {
+                Producto producto = listadoProductos.obtener(i);
                 ((DefaultTableModel) tabla.getModel()).addRow(new Object[]{producto.getCodigo(), producto.getNombre(), producto.getDescripcion(), producto.getPrecio(), producto.getCantidad(), producto.getFechaRegistro()});
             }
         } catch (NullPointerException ex) {
-            JOptionPane.showMessageDialog(null, "Error al listar el producto: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al listar el producto: " + ex.getMessage(), "Error");
         }
     }
 
     @Override
-    public List<Producto> listar() {
+    public Lista<Producto> listar() {
         return listadoProductos;
     }
 
@@ -224,20 +225,20 @@ public class ControlProducto implements Controlador, Serializable {
             if (objeto instanceof Producto) {
                 this.inicializar();
                 Producto producto = (Producto) objeto;
-                for (int i = 0; i < listadoProductos.size(); i++) {
-                    if (listadoProductos.get(i).getCodigo().equals(producto.getCodigo())) {
-                        listadoProductos.remove(i);
-                        listadoProductos.add(producto);
+                for (int i = 0; i < listadoProductos.tamanio(); i++) {
+                    if (listadoProductos.obtener(i).getCodigo().equals(producto.getCodigo())) {
+                        listadoProductos.remover(i);
+                        listadoProductos.agregar(producto);
                         ControlArchivo.guardarArchivo(listadoProductos, "Productos");
                         this.escribir();
-                        JOptionPane.showMessageDialog(null, "Producto modificado con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+                        Mensajes.mostrarMensajeInformativo("Producto modificado con éxito", "Información");
                     } else {
-                        JOptionPane.showMessageDialog(null, "Este producto no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                        Mensajes.mostrarMensajeAdvertencia("Este producto no existe", "Advertencia");
                     }
                 }
             }
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error al modificar el producto: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al modificar el producto: " + ex.getMessage(), "Error");
         }
     }
 
@@ -247,23 +248,23 @@ public class ControlProducto implements Controlador, Serializable {
         try {
             this.inicializar();
             producto = this.buscar(codigo);
-            for (int i = 0; i < listadoProductos.size(); i++) {
-                if (listadoProductos.get(i).getCodigo().equals(codigo) && producto != null) {
-                    int opcion = JOptionPane.showOptionDialog(null, "¿Está seguro que desea eliminar este producto llamado " + producto.getNombre() + " " + " ? ", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"SI", "NO"}, "SI");
+            for (int i = 0; i < listadoProductos.tamanio(); i++) {
+                if (listadoProductos.obtener(i).getCodigo().equals(codigo) && producto != null) {
+                    int opcion = Mensajes.mostrarMensajeOpcion("¿Está seguro que desea eliminar este producto llamado " + producto.getNombre() + " ? ", "Confirmar Eliminación");
                     if (opcion != -1) {
                         if ((opcion + 1) == 1) {
-                            listadoProductos.remove(producto);
+                            listadoProductos.remover(producto);
                             ControlArchivo.guardarArchivo(listadoProductos, "Productos");
                             this.escribir();
-                            JOptionPane.showMessageDialog(null, "Producto eliminado con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+                            Mensajes.mostrarMensajeInformativo("Producto eliminado con éxito", "Información");
                         }
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Este producto no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    Mensajes.mostrarMensajeAdvertencia("Este producto no existe", "Advertencia");
                 }
             }
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error al eliminar el producto: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al eliminar el producto: " + ex.getMessage(), "Error");
         }
     }
 }

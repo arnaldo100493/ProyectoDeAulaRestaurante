@@ -7,27 +7,27 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import com.restaurante.modelo.Proveedor;
+import com.restaurante.utilidades.Lista;
+import com.restaurante.utilidades.ListaLinkedList;
+import com.restaurante.utilidades.Mensajes;
 
 public class ControlProveedor implements Controlador, Serializable {
 
-    private static List<Proveedor> listadoProveedores;
+    private static Lista<Proveedor> listadoProveedores;
     private static final String ruta = "../ProyectoDeAulaRestaurante/datos/Proveedores.txt/";
 
     public ControlProveedor() {
         listadoProveedores = null;
     }
 
-    public static void setListadoProveedores(List<Proveedor> lista) {
+    public static void setListadoProveedores(Lista<Proveedor> lista) {
         listadoProveedores = lista;
     }
 
-    public static List<Proveedor> getListadoProveedores() {
+    public static Lista<Proveedor> getListadoProveedores() {
         return listadoProveedores;
     }
 
@@ -35,14 +35,14 @@ public class ControlProveedor implements Controlador, Serializable {
         try {
             listadoProveedores = ControlArchivo.leerArchivo("Proveedores");
             if (listadoProveedores == null) {
-                listadoProveedores = new LinkedList<>();
+                listadoProveedores = new ListaLinkedList<>();
             }
         } catch (IOException | ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "Error al leer el archivo: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al leer el archivo: " + ex.getMessage(), "Error");
         }
     }
 
-    // Método para escribir en el fichero
+    //Método para escribir en el fichero
     @Override
     public void escribir() {
         FileWriter fichero = null;
@@ -50,11 +50,11 @@ public class ControlProveedor implements Controlador, Serializable {
         try {
             fichero = new FileWriter(ruta);
             escribir = new PrintWriter(fichero);
-            for (int i = 0; i < listadoProveedores.size(); i++) {
-                escribir.println(listadoProveedores.get(i).toString());
+            for (int i = 0; i < listadoProveedores.tamanio(); i++) {
+                escribir.println(listadoProveedores.obtener(i).toString());
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Fichero NO Encontrado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Fichero NO Encontrado: " + ex.getMessage(), "Error");
             ex.printStackTrace();
         } finally {
             try {
@@ -67,7 +67,7 @@ public class ControlProveedor implements Controlador, Serializable {
         }
     }
 
-    // Método para cargar los datos del fichero a la lista
+    //Método para cargar los datos del fichero a la lista
     @Override
     public void cargarDatos() {
         File fichero = null;
@@ -90,32 +90,32 @@ public class ControlProveedor implements Controlador, Serializable {
             String nitEmpresa;
 
             while ((linea = bufLeer.readLine()) != null) {
-                // Identificación
+                //Identificación
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 identificacion = aux;
                 linea = linea.substring(posicion + 1);
-                // Nombre
+                //Nombre
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 nombre = aux;
                 linea = linea.substring(posicion + 1);
-                // Apellido
+                //Apellido
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 apellido = aux;
                 linea = linea.substring(posicion + 1);
-                // Sexo
+                //Sexo
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 sexo = aux;
                 linea = linea.substring(posicion + 1);
-                // Empresa
+                //Empresa
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 empresa = aux;
                 linea = linea.substring(posicion + 1);
-                // Nit Empresa
+                //Nit Empresa
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 nitEmpresa = aux;
@@ -124,7 +124,7 @@ public class ControlProveedor implements Controlador, Serializable {
             }
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Fichero NO Encontrado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Fichero NO Encontrado: " + ex.getMessage(), "Error");
         } finally {
             try {
                 if (leer != null) {
@@ -142,16 +142,16 @@ public class ControlProveedor implements Controlador, Serializable {
                 this.inicializar();
                 Proveedor proveedor = (Proveedor) objeto;
                 if (!this.existe(proveedor.getIdentificacion())) {
-                    listadoProveedores.add(proveedor);
+                    listadoProveedores.agregar(proveedor);
                     ControlArchivo.guardarArchivo(listadoProveedores, "Proveedores");
                     this.escribir();
-                    JOptionPane.showMessageDialog(null, "Proveedor registrado con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    Mensajes.mostrarMensajeInformativo("Proveedor registrado con éxito", "Información");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Este proveedor ya existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    Mensajes.mostrarMensajeAdvertencia("Este proveedor ya existe", "Advertencia");
                 }
             }
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error al registrar el proveedor: ", "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al registrar el proveedor: " + ex.getMessage(), "Error");
         }
     }
 
@@ -160,21 +160,19 @@ public class ControlProveedor implements Controlador, Serializable {
         this.inicializar();
         String id = identificacion;
         Proveedor proveedor = null;
-        for (Proveedor p : listadoProveedores) {
-            if (p.getIdentificacion().equals(id)) {
-                proveedor = p;
-            }
+        for (int i = 0; i < listadoProveedores.tamanio(); i++) {
+            if (listadoProveedores.obtener(i).getIdentificacion().equals(id));
+            proveedor = listadoProveedores.obtener(i);
         }
         return proveedor;
     }
-
     @Override
     public boolean existe(String identificacion) {
         this.inicializar();
         boolean estado = false;
         Proveedor proveedor = this.buscar(identificacion);
-        for (int i = 0; i < listadoProveedores.size(); i++) {
-            if (listadoProveedores.get(i).getIdentificacion().equals(identificacion)) {
+        for (int i = 0; i < listadoProveedores.tamanio(); i++) {
+            if (listadoProveedores.obtener(i).getIdentificacion().equals(identificacion)) {
                 estado = true;
             }
         }
@@ -192,15 +190,15 @@ public class ControlProveedor implements Controlador, Serializable {
         try {
             this.inicializar();
             proveedor = this.buscar(identificacion);
-            for (int i = 0; i < listadoProveedores.size(); i++) {
-                if (listadoProveedores.get(i).getIdentificacion().equals(identificacion) && proveedor != null) {
-                    proveedor = listadoProveedores.get(i);
+            for (int i = 0; i < listadoProveedores.tamanio(); i++) {
+                if (listadoProveedores.obtener(i).getIdentificacion().equals(identificacion) && proveedor != null) {
+                    proveedor = listadoProveedores.obtener(i);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Este proveedor no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    Mensajes.mostrarMensajeAdvertencia("Este proveedor no existe", "Advertencia");
                 }
             }
         } catch (NullPointerException ex) {
-            JOptionPane.showMessageDialog(null, "Error al consultar el proveedor: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al consultar el proveedor: " + ex.getMessage(), "Error");
         }
         return proveedor;
     }
@@ -210,16 +208,17 @@ public class ControlProveedor implements Controlador, Serializable {
         try {
             this.inicializar();
             ((DefaultTableModel) tabla.getModel()).setNumRows(0);
-            for (Proveedor proveedor : listadoProveedores) {
+            for (int i = 0; i < listadoProveedores.tamanio(); i++) {
+                Proveedor proveedor = listadoProveedores.obtener(i);
                 ((DefaultTableModel) tabla.getModel()).addRow(new Object[]{proveedor.getIdentificacion(), proveedor.getNombre(), proveedor.getApellido(), proveedor.getSexo(), proveedor.getEmpresa(), proveedor.getNitEmpresa()});
             }
         } catch (NullPointerException ex) {
-            JOptionPane.showMessageDialog(null, "Error al listar el proveedor: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al listar el proveedor: " + ex.getMessage(), "Error");
         }
     }
 
     @Override
-    public List<Proveedor> listar() {
+    public Lista<Proveedor> listar() {
         return listadoProveedores;
     }
 
@@ -229,20 +228,20 @@ public class ControlProveedor implements Controlador, Serializable {
             if (objeto instanceof Proveedor) {
                 this.inicializar();
                 Proveedor proveedor = (Proveedor) objeto;
-                for (int i = 0; i < listadoProveedores.size(); i++) {
-                    if (listadoProveedores.get(i).getIdentificacion().equals(proveedor.getIdentificacion())) {
-                        listadoProveedores.remove(i);
-                        listadoProveedores.add(proveedor);
+                for (int i = 0; i < listadoProveedores.tamanio(); i++) {
+                    if (listadoProveedores.obtener(i).getIdentificacion().equals(proveedor.getIdentificacion())) {
+                        listadoProveedores.remover(i);
+                        listadoProveedores.agregar(proveedor);
                         ControlArchivo.guardarArchivo(listadoProveedores, "Proveedores");
                         this.escribir();
-                        JOptionPane.showMessageDialog(null, "Proveedor modificado con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+                        Mensajes.mostrarMensajeInformativo("Proveedor modificado con éxito", "Información");
                     } else {
-                        JOptionPane.showMessageDialog(null, "Este proveedor no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                        Mensajes.mostrarMensajeAdvertencia("Este proveedor no existe", "Advertencia");
                     }
                 }
             }
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error al modificar el proveedor: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al modificar el proveedor: " + ex.getMessage(), "Error");
         }
     }
 
@@ -252,23 +251,23 @@ public class ControlProveedor implements Controlador, Serializable {
         try {
             this.inicializar();
             proveedor = this.buscar(identificacion);
-            for (int i = 0; i < listadoProveedores.size(); i++) {
-                if (listadoProveedores.get(i).getIdentificacion().equals(identificacion) && proveedor != null) {
-                    int opcion = JOptionPane.showOptionDialog(null, "¿Está seguro que desea eliminar este proveedor llamado " + proveedor.getNombre() + " " + proveedor.getApellido() + " ? ", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"SI", "NO"}, "SI");
+            for (int i = 0; i < listadoProveedores.tamanio(); i++) {
+                if (listadoProveedores.obtener(i).getIdentificacion().equals(identificacion) && proveedor != null) {
+                    int opcion = Mensajes.mostrarMensajeOpcion("¿Está seguro que desea eliminar este empleado llamado " + proveedor.getNombre() + " " + proveedor.getApellido() + " ? ", "Confirmar Eliminación");
                     if (opcion != -1) {
                         if ((opcion + 1) == 1) {
-                            listadoProveedores.remove(proveedor);
+                            listadoProveedores.remover(proveedor);
                             ControlArchivo.guardarArchivo(listadoProveedores, "Proveedores");
                             this.escribir();
-                            JOptionPane.showMessageDialog(null, "Proveedor eliminado con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+                            Mensajes.mostrarMensajeInformativo("Proveedor eliminado con éxito", "Información");
                         }
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Este proveedor no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    Mensajes.mostrarMensajeAdvertencia("Este empleado no existe", "Advertencia");
                 }
             }
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error al eliminar el proveedor: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al eliminar el empleado: " + ex.getMessage(), "Error");
         }
     }
 }

@@ -7,27 +7,27 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import com.restaurante.modelo.Empleado;
+import com.restaurante.utilidades.Lista;
+import com.restaurante.utilidades.ListaLinkedList;
+import com.restaurante.utilidades.Mensajes;
 
 public class ControlEmpleado implements Controlador, Serializable {
 
-    private static List<Empleado> listadoEmpleados;
+    private static Lista<Empleado> listadoEmpleados;
     private static final String ruta = "../ProyectoDeAulaRestaurante/datos/Empleados.txt/";
 
     public ControlEmpleado() {
         listadoEmpleados = null;
     }
 
-    public static void setListadoEmpleados(List<Empleado> lista) {
+    public static void setListadoEmpleados(Lista<Empleado> lista) {
         listadoEmpleados = lista;
     }
 
-    public static List<Empleado> getListadoEmpleados() {
+    public static Lista<Empleado> getListadoEmpleados() {
         return listadoEmpleados;
     }
 
@@ -35,14 +35,14 @@ public class ControlEmpleado implements Controlador, Serializable {
         try {
             listadoEmpleados = ControlArchivo.leerArchivo("Empleados");
             if (listadoEmpleados == null) {
-                listadoEmpleados = new LinkedList<>();
+                listadoEmpleados = new ListaLinkedList<>();
             }
         } catch (IOException | ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "Error al leer el archivo: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al leer el archivo: " + ex.getMessage(), "Error");
         }
     }
 
-    // Método para escribir en el fichero
+    //Método para escribir en el fichero
     @Override
     public void escribir() {
         FileWriter fichero = null;
@@ -50,11 +50,11 @@ public class ControlEmpleado implements Controlador, Serializable {
         try {
             fichero = new FileWriter(ruta);
             escribir = new PrintWriter(fichero);
-            for (int i = 0; i < listadoEmpleados.size(); i++) {
-                escribir.println(listadoEmpleados.get(i).toString());
+            for (int i = 0; i < listadoEmpleados.tamanio(); i++) {
+                escribir.println(listadoEmpleados.obtener(i).toString());
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Fichero NO Encontrado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Fichero NO Encontrado: " + ex.getMessage(), "Error");
             ex.printStackTrace();
         } finally {
             try {
@@ -67,7 +67,7 @@ public class ControlEmpleado implements Controlador, Serializable {
         }
     }
 
-    // Método para cargar los datos del fichero a la lista
+    //Método para cargar los datos del fichero a la lista
     @Override
     public void cargarDatos() {
         File fichero = null;
@@ -92,32 +92,32 @@ public class ControlEmpleado implements Controlador, Serializable {
             int sueldo;
 
             while ((linea = bufLeer.readLine()) != null) {
-                // Identificación
+                //Identificación
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 identificacion = aux;
                 linea = linea.substring(posicion + 1);
-                // Nombre
+                //Nombre
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 nombre = aux;
                 linea = linea.substring(posicion + 1);
-                // Apellido
+                //Apellido
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 apellido = aux;
                 linea = linea.substring(posicion + 1);
-                // Sexo
+                //Sexo
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 sexo = aux;
                 linea = linea.substring(posicion + 1);
-                // Teléfono
+                //Teléfono
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 telefono = aux;
                 linea = linea.substring(posicion + 1);
-                // Dirección y email
+                //Dirección y Email
                 posicion = linea.indexOf('|');
                 aux = linea.substring(0, posicion);
                 direccion = aux;
@@ -132,7 +132,7 @@ public class ControlEmpleado implements Controlador, Serializable {
             }
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Fichero NO Encontrado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Fichero NO Encontrado: " + ex.getMessage(), "Error");
             ex.printStackTrace();
         } finally {
             try {
@@ -152,16 +152,16 @@ public class ControlEmpleado implements Controlador, Serializable {
                 this.inicializar();
                 Empleado empleado = (Empleado) objeto;
                 if (!this.existe(empleado.getIdentificacion())) {
-                    listadoEmpleados.add(empleado);
+                    listadoEmpleados.agregar(empleado);
                     ControlArchivo.guardarArchivo(listadoEmpleados, "Empleados");
                     this.escribir();
-                    JOptionPane.showMessageDialog(null, "Empleado registrado con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    Mensajes.mostrarMensajeInformativo("Empleado registrado con éxito", "Información");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Este empleado ya existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    Mensajes.mostrarMensajeAdvertencia("Este empleado ya existe", "Advertencia");
                 }
             }
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error al registrar el empleado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al registrar el empleado: " + ex.getMessage(), "Error");
         }
     }
 
@@ -170,10 +170,9 @@ public class ControlEmpleado implements Controlador, Serializable {
         this.inicializar();
         String id = identificacion;
         Empleado empleado = null;
-        for (Empleado e : listadoEmpleados) {
-            if (e.getIdentificacion().equals(id)) {
-                empleado = e;
-            }
+        for (int i = 0; i < listadoEmpleados.tamanio(); i++) {
+            if (listadoEmpleados.obtener(i).getIdentificacion().equals(id));
+            empleado = listadoEmpleados.obtener(i);
         }
         return empleado;
     }
@@ -183,8 +182,8 @@ public class ControlEmpleado implements Controlador, Serializable {
         this.inicializar();
         boolean estado = false;
         Empleado empleado = this.buscar(identificacion);
-        for (int i = 0; i < listadoEmpleados.size(); i++) {
-            if (listadoEmpleados.get(i).getIdentificacion().equals(identificacion)) {
+        for (int i = 0; i < listadoEmpleados.tamanio(); i++) {
+            if (listadoEmpleados.obtener(i).getIdentificacion().equals(identificacion)) {
                 estado = true;
             }
         }
@@ -202,15 +201,15 @@ public class ControlEmpleado implements Controlador, Serializable {
         try {
             this.inicializar();
             empleado = this.buscar(identificacion);
-            for (int i = 0; i < listadoEmpleados.size(); i++) {
-                if (listadoEmpleados.get(i).getIdentificacion().equals(identificacion) && empleado != null) {
-                    empleado = listadoEmpleados.get(i);
+            for (int i = 0; i < listadoEmpleados.tamanio(); i++) {
+                if (listadoEmpleados.obtener(i).getIdentificacion().equals(identificacion) && empleado != null) {
+                    empleado = listadoEmpleados.obtener(i);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Este empleado no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    Mensajes.mostrarMensajeAdvertencia("Este empleado no existe", "Advertencia");
                 }
             }
         } catch (NullPointerException ex) {
-            JOptionPane.showMessageDialog(null, "Error al consultar el empleado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al consultar el empleado: " + ex.getMessage(), "Error");
         }
         return empleado;
     }
@@ -220,16 +219,17 @@ public class ControlEmpleado implements Controlador, Serializable {
         try {
             this.inicializar();
             ((DefaultTableModel) tabla.getModel()).setNumRows(0);
-            for (Empleado empleado : listadoEmpleados) {
+            for (int i = 0; i < listadoEmpleados.tamanio(); i++) {
+                Empleado empleado = listadoEmpleados.obtener(i);
                 ((DefaultTableModel) tabla.getModel()).addRow(new Object[]{empleado.getIdentificacion(), empleado.getNombre(), empleado.getApellido(), empleado.getDireccion(), empleado.getTelefono(), empleado.getCorreoElectronico(), empleado.getSexo(), empleado.getSueldo(), empleado.getFechaRegistro()});
             }
         } catch (NullPointerException ex) {
-            JOptionPane.showMessageDialog(null, "Error al listar el empleado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al listar el empleado: " + ex.getMessage(), "Error");
         }
     }
 
     @Override
-    public List<Empleado> listar() {
+    public Lista<Empleado> listar() {
         return listadoEmpleados;
     }
 
@@ -239,20 +239,20 @@ public class ControlEmpleado implements Controlador, Serializable {
             if (objeto instanceof Empleado) {
                 this.inicializar();
                 Empleado empleado = (Empleado) objeto;
-                for (int i = 0; i < listadoEmpleados.size(); i++) {
-                    if (listadoEmpleados.get(i).getIdentificacion().equals(empleado.getIdentificacion())) {
-                        listadoEmpleados.remove(i);
-                        listadoEmpleados.add(empleado);
+                for (int i = 0; i < listadoEmpleados.tamanio(); i++) {
+                    if (listadoEmpleados.obtener(i).getIdentificacion().equals(empleado.getIdentificacion())) {
+                        listadoEmpleados.remover(i);
+                        listadoEmpleados.agregar(empleado);
                         ControlArchivo.guardarArchivo(listadoEmpleados, "Empleado");
                         this.escribir();
-                        JOptionPane.showMessageDialog(null, "Empleado modificado con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+                        Mensajes.mostrarMensajeInformativo("Empleado modificado con éxito", "Información");
                     } else {
-                        JOptionPane.showMessageDialog(null, "Este empleado no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                        Mensajes.mostrarMensajeAdvertencia("Este empleado no existe", "Advertencia");
                     }
                 }
             }
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error al modificar el empleado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al modificar el empleado: " + ex.getMessage(), "Error");
         }
     }
 
@@ -262,23 +262,23 @@ public class ControlEmpleado implements Controlador, Serializable {
         try {
             this.inicializar();
             empleado = this.buscar(identificacion);
-            for (int i = 0; i < listadoEmpleados.size(); i++) {
-                if (listadoEmpleados.get(i).getIdentificacion().equals(identificacion) && empleado != null) {
-                    int opcion = JOptionPane.showOptionDialog(null, "¿Está seguro que desea eliminar este empleado llamado " + empleado.getNombre() + " " + empleado.getApellido() + " ? ", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"SI", "NO"}, "SI");
+            for (int i = 0; i < listadoEmpleados.tamanio(); i++) {
+                if (listadoEmpleados.obtener(i).getIdentificacion().equals(identificacion) && empleado != null) {
+                    int opcion = Mensajes.mostrarMensajeOpcion("¿Está seguro que desea eliminar este empleado llamado " + empleado.getNombre() + " " + empleado.getApellido() + " ? ", "Confirmar Eliminación");
                     if (opcion != -1) {
                         if ((opcion + 1) == 1) {
-                            listadoEmpleados.remove(empleado);
+                            listadoEmpleados.remover(empleado);
                             ControlArchivo.guardarArchivo(listadoEmpleados, "Empleados");
                             this.escribir();
-                            JOptionPane.showMessageDialog(null, "Empleado eliminado con éxito", "Información", JOptionPane.INFORMATION_MESSAGE);
+                            Mensajes.mostrarMensajeInformativo("Empleado eliminado con éxito", "Información");
                         }
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Este empleado no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    Mensajes.mostrarMensajeAdvertencia("Este empleado no existe", "Advertencia");
                 }
             }
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error al eliminar el empleado: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al eliminar el empleado: " + ex.getMessage(), "Error");
         }
     }
 }

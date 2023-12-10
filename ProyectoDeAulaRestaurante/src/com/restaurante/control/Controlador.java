@@ -1,6 +1,6 @@
 package com.restaurante.control;
 
-import java.util.List;
+import com.restaurante.utilidades.Lista;
 import javax.swing.JTable;
 
 public interface Controlador<E> {
@@ -19,7 +19,7 @@ public interface Controlador<E> {
 
     public void listar(JTable tabla);
 
-    public List<E> listar();
+    public Lista<E> listar();
 
     public void modificar(E objeto);
 
