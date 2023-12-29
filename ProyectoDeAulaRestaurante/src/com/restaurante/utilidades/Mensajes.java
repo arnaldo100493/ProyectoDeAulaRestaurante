@@ -42,6 +42,14 @@ public class Mensajes {
         JOptionPane.showMessageDialog(null, mensaje, titulo, JOptionPane.ERROR_MESSAGE);
     }
 
+    public static void mostrarMensajeConfirmacion(String mensaje) {
+        JOptionPane.showConfirmDialog(null, mensaje);
+    }
+
+    public static int mostrarMensajeConfirmacion(String mensaje, String titulo) {
+        return JOptionPane.showConfirmDialog(null, mensaje, titulo, JOptionPane.YES_NO_CANCEL_OPTION);
+    }
+
     public static String mostrarMensajeEntrada(String mensaje) {
         return JOptionPane.showInputDialog(null, mensaje);
     }
