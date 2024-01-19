@@ -1,7 +1,21 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
+ /*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.restaurante.modelo;
 
 import java.io.Serializable;
 
+/**
+ *
+ * @author cyber
+ */
 public class Restaurante implements Serializable {
 
     private String correoElectronico;
@@ -15,11 +29,6 @@ public class Restaurante implements Serializable {
     public Restaurante(String correoElectronico, String telefono) {
         this.correoElectronico = correoElectronico;
         this.telefono = telefono;
-    }
-
-    public Restaurante(Restaurante restaurante) {
-        this.correoElectronico = restaurante.getCorreoElectronico();
-        this.telefono = restaurante.getTelefono();
     }
 
     public String mostrarRestaurante() {
@@ -46,5 +55,4 @@ public class Restaurante implements Serializable {
     public String getTelefono() {
         return this.telefono;
     }
-
 }

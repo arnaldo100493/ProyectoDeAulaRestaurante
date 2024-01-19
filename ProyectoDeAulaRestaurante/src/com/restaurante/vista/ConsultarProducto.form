@@ -26,17 +26,17 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
+          <Component id="pnlDatos" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
+          <Component id="pnlDatos" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="jPanel1">
+    <Container class="javax.swing.JPanel" name="pnlDatos">
 
       <Layout>
         <DimensionLayout dim="0">
@@ -46,34 +46,34 @@
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="labelDigiteCodigo" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="labelCodigo" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="labelNombre" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="labelDescripcion" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="labelPrecio" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="labelCantidad" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblDigiteCodigo" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblCodigo" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblNombre" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblDescripcion" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblPrecio" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblCantidad" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="textCantidad" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
-                              <Component id="textPrecio" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
-                              <Component id="textDescripcion" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
-                              <Component id="textNombre" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
-                              <Component id="textCodigo" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
-                              <Component id="textDigiteCodigo" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
+                              <Component id="txtCantidad" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
+                              <Component id="txtPrecio" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
+                              <Component id="txtDescripcion" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
+                              <Component id="txtNombre" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
+                              <Component id="txtCodigo" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
+                              <Component id="txtDigiteCodigo" alignment="1" min="-2" pref="200" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" attributes="0">
-                          <Component id="labelFechaRegistro" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblFechaRegistro" min="-2" max="-2" attributes="0"/>
                           <EmptySpace pref="23" max="32767" attributes="0"/>
-                          <Component id="textFechaRegistro" min="-2" pref="200" max="-2" attributes="0"/>
+                          <Component id="txtFechaRegistro" min="-2" pref="200" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
-                          <Component id="buttonConsultar" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnConsultar" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                          <Component id="buttonLimpiar" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnLimpiar" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="buttonCancelar" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnCancelar" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace pref="73" max="32767" attributes="0"/>
@@ -85,44 +85,44 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="labelDigiteCodigo" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="textDigiteCodigo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblDigiteCodigo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtDigiteCodigo" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="labelCodigo" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="textCodigo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblCodigo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtCodigo" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="labelNombre" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="textNombre" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblNombre" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtNombre" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="labelDescripcion" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="textDescripcion" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblDescripcion" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtDescripcion" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="labelPrecio" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="textPrecio" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblPrecio" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtPrecio" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="labelCantidad" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="textCantidad" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblCantidad" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtCantidad" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="labelFechaRegistro" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="textFechaRegistro" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblFechaRegistro" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtFechaRegistro" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="39" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="buttonConsultar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="buttonLimpiar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="buttonCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnConsultar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnLimpiar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnCancelar" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
               </Group>
@@ -130,7 +130,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="labelDigiteCodigo">
+        <Component class="javax.swing.JLabel" name="lblDigiteCodigo">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="12" style="1"/>
@@ -138,7 +138,7 @@
             <Property name="text" type="java.lang.String" value="Dig&#xed;te C&#xf3;digo:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="labelCodigo">
+        <Component class="javax.swing.JLabel" name="lblCodigo">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="12" style="1"/>
@@ -146,7 +146,7 @@
             <Property name="text" type="java.lang.String" value="C&#xf3;digo:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="labelNombre">
+        <Component class="javax.swing.JLabel" name="lblNombre">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="12" style="1"/>
@@ -154,7 +154,7 @@
             <Property name="text" type="java.lang.String" value="Nombre:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="labelDescripcion">
+        <Component class="javax.swing.JLabel" name="lblDescripcion">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="12" style="1"/>
@@ -162,7 +162,7 @@
             <Property name="text" type="java.lang.String" value="Descripci&#xf3;n:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="labelPrecio">
+        <Component class="javax.swing.JLabel" name="lblPrecio">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="12" style="1"/>
@@ -170,7 +170,7 @@
             <Property name="text" type="java.lang.String" value="Precio:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="labelCantidad">
+        <Component class="javax.swing.JLabel" name="lblCantidad">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="12" style="1"/>
@@ -178,7 +178,7 @@
             <Property name="text" type="java.lang.String" value="Cantidad:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="labelFechaRegistro">
+        <Component class="javax.swing.JLabel" name="lblFechaRegistro">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="12" style="1"/>
@@ -186,42 +186,42 @@
             <Property name="text" type="java.lang.String" value="Fecha Registro:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="textDigiteCodigo">
+        <Component class="javax.swing.JTextField" name="txtDigiteCodigo">
           <Events>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="textDigiteCodigoKeyTyped"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtDigiteCodigoKeyTyped"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="textCodigo">
+        <Component class="javax.swing.JTextField" name="txtCodigo">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="textNombre">
+        <Component class="javax.swing.JTextField" name="txtNombre">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="textDescripcion">
+        <Component class="javax.swing.JTextField" name="txtDescripcion">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="textPrecio">
+        <Component class="javax.swing.JTextField" name="txtPrecio">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="textCantidad">
+        <Component class="javax.swing.JTextField" name="txtCantidad">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="textFechaRegistro">
+        <Component class="javax.swing.JTextField" name="txtFechaRegistro">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="buttonConsultar">
+        <Component class="javax.swing.JButton" name="btnConsultar">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="12" style="1"/>
@@ -229,10 +229,10 @@
             <Property name="text" type="java.lang.String" value="Consultar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonConsultarActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConsultarActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="buttonLimpiar">
+        <Component class="javax.swing.JButton" name="btnLimpiar">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="12" style="1"/>
@@ -240,10 +240,10 @@
             <Property name="text" type="java.lang.String" value="Limpiar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonLimpiarActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLimpiarActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="buttonCancelar">
+        <Component class="javax.swing.JButton" name="btnCancelar">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="12" style="1"/>
@@ -251,7 +251,7 @@
             <Property name="text" type="java.lang.String" value="Cancelar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonCancelarActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelarActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

@@ -1,7 +1,21 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
+ /*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.restaurante.modelo;
 
 import java.io.Serializable;
 
+/**
+ *
+ * @author cyber
+ */
 public class Producto implements Serializable {
 
     protected String codigo;
@@ -46,14 +60,14 @@ public class Producto implements Serializable {
         this.cantidad = cantidad;
         this.fechaRegistro = fechaRegistro;
     }
-    
-    public Producto(Producto producto){
+
+    public Producto(Producto producto) {
         this.codigo = producto.getCodigo();
         this.nombre = producto.getNombre();
         this.descripcion = producto.getDescripcion();
         this.precio = producto.getPrecio();
         this.cantidad = producto.getCantidad();
-        this.fechaRegistro = producto.getFechaRegistro();  
+        this.fechaRegistro = producto.getFechaRegistro();
     }
 
     public String mostrarProducto() {

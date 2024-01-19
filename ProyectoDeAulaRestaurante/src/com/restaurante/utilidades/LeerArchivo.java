@@ -1,13 +1,29 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
+ /*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.restaurante.utilidades;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
-public class LeerArchivo extends JFrame {
+/**
+ *
+ * @author cyber
+ *
+ */
+public class LeerArchivo extends javax.swing.JFrame {
 
+    /**
+     * Creates new form LeerArchivo
+     */
     public LeerArchivo() {
         this.initComponents();
         this.setTitle("Lectura De Archivos");
@@ -16,23 +32,23 @@ public class LeerArchivo extends JFrame {
     }
 
     private void limpiar() {
-        this.campoTexto.setText("");
+        this.txtRuta.setText("");
     }
 
     private void examinar() {
         JFileChooser jfc = new JFileChooser();
         int opcion = jfc.showOpenDialog(null);
         if (opcion == JFileChooser.APPROVE_OPTION) {
-            this.campoTexto.setText(jfc.getSelectedFile().getPath());
+            this.txtRuta.setText(jfc.getSelectedFile().getPath());
         }
     }
 
     private void leerArchivo() {
         try {
-            if (this.campoTexto.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "\nNo ha seleccionado el archivo", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            if (this.txtRuta.getText().isEmpty()) {
+                Mensajes.mostrarMensajeAdvertencia("No ha seleccionado el archivo", "Advertencia");
             } else {
-                FileReader fr = new FileReader(campoTexto.getText());
+                FileReader fr = new FileReader(txtRuta.getText());
                 BufferedReader br = new BufferedReader(fr);
                 String lineaTexto;
                 lineaTexto = br.readLine();
@@ -41,118 +57,115 @@ public class LeerArchivo extends JFrame {
                 }
             }
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "\nError al leer el archivo", "Error", JOptionPane.ERROR_MESSAGE);
-            limpiar();
+            Mensajes.mostrarMensajeError("Error al leer el archivo", "Error");
+            this.limpiar();
         }
-
     }
 
     private void salir() {
         try {
-            int opcion = JOptionPane.showOptionDialog(null, "\n¿Está seguro que desea salir?", "Confirmar Salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
+            int opcion = Mensajes.mostrarMensajeOpcion("¿Está seguro que desea salir?", "Confirmar Salida");
             if (opcion != -1) {
                 if ((opcion + 1) == 1) {
                     dispose();
                 }
             }
         } catch (Exception ex) {
-
-            JOptionPane.showMessageDialog(null, "\nError al salir", "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al salir", "Error");
         }
-
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        campoTexto = new javax.swing.JTextField();
-        cancelar = new javax.swing.JButton();
-        leerArchivo = new javax.swing.JButton();
-        examinar = new javax.swing.JButton();
-        salir = new javax.swing.JButton();
+        pnlDatos = new javax.swing.JPanel();
+        lblLecturaArchivos = new javax.swing.JLabel();
+        lblRuta = new javax.swing.JLabel();
+        txtRuta = new javax.swing.JTextField();
+        btnCancelar = new javax.swing.JButton();
+        btnLeerArchivo = new javax.swing.JButton();
+        btnExaminar = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel1.setText("Lectura de Archivos");
+        lblLecturaArchivos.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        lblLecturaArchivos.setText("Lectura de Archivos");
 
-        jLabel2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jLabel2.setText("Ruta:");
+        lblRuta.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        lblRuta.setText("Ruta:");
 
-        cancelar.setText("Cancelar");
-        cancelar.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelarActionPerformed(evt);
+                btnCancelarActionPerformed(evt);
             }
         });
 
-        leerArchivo.setText("Leer Archivo");
-        leerArchivo.addActionListener(new java.awt.event.ActionListener() {
+        btnLeerArchivo.setText("Leer Archivo");
+        btnLeerArchivo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                leerArchivoActionPerformed(evt);
+                btnLeerArchivoActionPerformed(evt);
             }
         });
 
-        examinar.setText("Examinar...");
-        examinar.addActionListener(new java.awt.event.ActionListener() {
+        btnExaminar.setText("Examinar...");
+        btnExaminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                examinarActionPerformed(evt);
+                btnExaminarActionPerformed(evt);
             }
         });
 
-        salir.setText("Salir");
-        salir.addActionListener(new java.awt.event.ActionListener() {
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                salirActionPerformed(evt);
+                btnSalirActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlDatosLayout = new javax.swing.GroupLayout(pnlDatos);
+        pnlDatos.setLayout(pnlDatosLayout);
+        pnlDatosLayout.setHorizontalGroup(
+            pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDatosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlDatosLayout.createSequentialGroup()
+                        .addComponent(lblRuta)
                         .addGap(28, 28, 28)
-                        .addComponent(campoTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(leerArchivo)
-                            .addComponent(cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlDatosLayout.createSequentialGroup()
+                        .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnLeerArchivo)
+                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(examinar, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(salir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnExaminar, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnSalir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(45, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDatosLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(lblLecturaArchivos)
                 .addGap(97, 97, 97))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        pnlDatosLayout.setVerticalGroup(
+            pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDatosLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(jLabel1)
+                .addComponent(lblLecturaArchivos)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(campoTexto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRuta)
+                    .addComponent(txtRuta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cancelar)
-                    .addComponent(examinar))
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCancelar)
+                    .addComponent(btnExaminar))
                 .addGap(36, 36, 36)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(leerArchivo)
-                    .addComponent(salir))
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnLeerArchivo)
+                    .addComponent(btnSalir))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
 
@@ -160,32 +173,39 @@ public class LeerArchivo extends JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pnlDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
-        limpiar();
-    }//GEN-LAST:event_cancelarActionPerformed
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        this.limpiar();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void leerArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leerArchivoActionPerformed
-        leerArchivo();
-    }//GEN-LAST:event_leerArchivoActionPerformed
+    private void btnLeerArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLeerArchivoActionPerformed
+        // TODO add your handling code here:
+        this.leerArchivo();
+    }//GEN-LAST:event_btnLeerArchivoActionPerformed
 
-    private void examinarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_examinarActionPerformed
-        examinar();
-    }//GEN-LAST:event_examinarActionPerformed
+    private void btnExaminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExaminarActionPerformed
+        // TODO add your handling code here:
+        this.examinar();
+    }//GEN-LAST:event_btnExaminarActionPerformed
 
-    private void salirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirActionPerformed
-        salir();
-    }//GEN-LAST:event_salirActionPerformed
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        // TODO add your handling code here:
+        this.salir();
+    }//GEN-LAST:event_btnSalirActionPerformed
 
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -219,13 +239,13 @@ public class LeerArchivo extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField campoTexto;
-    private javax.swing.JButton cancelar;
-    private javax.swing.JButton examinar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton leerArchivo;
-    private javax.swing.JButton salir;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnExaminar;
+    private javax.swing.JButton btnLeerArchivo;
+    private javax.swing.JButton btnSalir;
+    private javax.swing.JLabel lblLecturaArchivos;
+    private javax.swing.JLabel lblRuta;
+    private javax.swing.JPanel pnlDatos;
+    private javax.swing.JTextField txtRuta;
     // End of variables declaration//GEN-END:variables
 }

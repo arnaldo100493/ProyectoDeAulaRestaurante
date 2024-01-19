@@ -1,7 +1,21 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
+ /*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.restaurante.modelo;
 
 import java.io.Serializable;
 
+/**
+ *
+ * @author cyber
+ */
 public class Proveedor extends Persona implements Serializable {
 
     private String empresa;
@@ -35,26 +49,6 @@ public class Proveedor extends Persona implements Serializable {
         super(identificacion, nombre, apellido, direccion, telefono, correoElectronico, sexo, fechaRegistro);
         this.empresa = empresa;
         this.nitEmpresa = nitEmpresa;
-    }
-
-    public Proveedor(Persona persona, String empresa, String nitEmpresa) {
-        super(persona);
-        this.empresa = empresa;
-        this.nitEmpresa = nitEmpresa;
-    }
-
-    public Proveedor(Proveedor proveedor) {
-        super();
-        this.identificacion = proveedor.getIdentificacion();
-        this.nombre = proveedor.getNombre();
-        this.apellido = proveedor.getApellido();
-        this.direccion = proveedor.getDireccion();
-        this.telefono = proveedor.getTelefono();
-        this.correoElectronico = proveedor.getCorreoElectronico();
-        this.sexo = proveedor.getSexo();
-        this.fechaRegistro = proveedor.getFechaRegistro();
-        this.empresa = proveedor.getEmpresa();
-        this.nitEmpresa = proveedor.getNitEmpresa();
     }
 
     public String mostrarProveedor() {

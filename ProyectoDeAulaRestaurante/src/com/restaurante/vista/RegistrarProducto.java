@@ -1,50 +1,108 @@
+
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
+ /*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.restaurante.vista;
 
 import com.restaurante.control.ControlProducto;
 import com.restaurante.control.Controlador;
-import java.awt.event.KeyEvent;
+import com.restaurante.modelo.Producto;
+import com.restaurante.utilidades.Mensajes;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
-import com.restaurante.modelo.Producto;
 
-public class RegistrarProducto extends JInternalFrame {
+/**
+ *
+ * @author cyber
+ */
+public class RegistrarProducto extends javax.swing.JInternalFrame {
 
-    Controlador<Producto> controladorProducto = new ControlProducto();
-    Calendar fechaRegistro = new GregorianCalendar();
+    private final Controlador<Producto> controladorProducto;
+    private final Calendar fechaRegistro;
 
+    /**
+     * Creates new form RegistrarProducto
+     */
     public RegistrarProducto() {
         initComponents();
-        this.textFechaRegistro.setText(this.fechaRegistro.getTime().toLocaleString());
+        this.controladorProducto = new ControlProducto();
+        this.fechaRegistro = new GregorianCalendar();
+        this.txtFechaRegistro.setText(this.fechaRegistro.getTime().toLocaleString());
         this.controladorProducto.cargarDatos();
     }
 
-    public void limpiarCampos() {
-        this.textCodigo.setText("");
-        this.textNombre.setText("");
-        this.textDescripcion.setText("");
-        this.textPrecio.setText("");
-        this.textCantidad.setText("");
+    private void validarCodigo(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+        if (c < '0' || c > '9') {
+            getToolkit().beep();
+            evt.consume();
+        }
     }
 
-    public boolean validarCampos() {
-        return this.textCodigo.getText().isEmpty() || this.textNombre.getText().isEmpty() || this.textDescripcion.getText().isEmpty() || this.textPrecio.getText().isEmpty() || this.textCantidad.getText().isEmpty();
+    private void validarNombre(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+        if ((c < 'A' || c > 'Z') && (c < 'a' || c > 'z') && (c != (char) java.awt.event.KeyEvent.VK_SPACE)) {
+            getToolkit().beep();
+            evt.consume();
+        }
     }
 
-    public void registrar() {
+    private void validarDescripcion(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+        if ((c < 'A' || c > 'Z') && (c < 'a' || c > 'z') && (c != (char) java.awt.event.KeyEvent.VK_SPACE)) {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }
+
+    private void validarPrecio(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+        if (c < '0' || c > '9') {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }
+
+    private void validarCantidad(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+        if (c < '0' || c > '9') {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }
+
+    private void limpiar() {
+        this.txtCodigo.setText("");
+        this.txtNombre.setText("");
+        this.txtDescripcion.setText("");
+        this.txtPrecio.setText("");
+        this.txtCantidad.setText("");
+    }
+
+    private boolean validarCampos() {
+        return this.txtCodigo.getText().isEmpty() || this.txtNombre.getText().isEmpty() || this.txtDescripcion.getText().isEmpty() || this.txtPrecio.getText().isEmpty() || this.txtCantidad.getText().isEmpty();
+    }
+
+    private void registrar() {
         if (this.validarCampos()) {
-            JOptionPane.showMessageDialog(null, "No debe dejar campos vacíos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            Mensajes.mostrarMensajeAdvertencia("No debe dejar campos vacíos", "Advertencia");
         } else {
             Producto producto = new Producto();
-            producto.setCodigo(textCodigo.getText());
-            producto.setNombre(this.textNombre.getText());
-            producto.setDescripcion(this.textDescripcion.getText());
-            producto.setPrecio(Integer.parseInt(this.textPrecio.getText()));
-            producto.setCantidad(Integer.parseInt(this.textCantidad.getText()));
+            producto.setCodigo(txtCodigo.getText());
+            producto.setNombre(this.txtNombre.getText());
+            producto.setDescripcion(this.txtDescripcion.getText());
+            producto.setPrecio(Integer.parseInt(this.txtPrecio.getText()));
+            producto.setCantidad(Integer.parseInt(this.txtCantidad.getText()));
             producto.setFechaRegistro(this.fechaRegistro.getTime().toLocaleString());
             this.controladorProducto.registrar(producto);
-            this.limpiarCampos();
+            this.limpiar();
         }
     }
 
@@ -52,26 +110,31 @@ public class RegistrarProducto extends JInternalFrame {
         this.dispose();
     }
 
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        labelFechaRegistro = new javax.swing.JLabel();
-        labelCodigo = new javax.swing.JLabel();
-        labelNombre = new javax.swing.JLabel();
-        labelDescripcion = new javax.swing.JLabel();
-        labelPrecio = new javax.swing.JLabel();
-        labelCantidad = new javax.swing.JLabel();
-        textFechaRegistro = new javax.swing.JTextField();
-        textCodigo = new javax.swing.JTextField();
-        textNombre = new javax.swing.JTextField();
-        textDescripcion = new javax.swing.JTextField();
-        textPrecio = new javax.swing.JTextField();
-        textCantidad = new javax.swing.JTextField();
-        buttonRegistrar = new javax.swing.JButton();
-        buttonLimpiar = new javax.swing.JButton();
-        buttonCancelar = new javax.swing.JButton();
+        pnlDatos = new javax.swing.JPanel();
+        lblFechaRegistro = new javax.swing.JLabel();
+        lblCodigo = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
+        lblDescripcion = new javax.swing.JLabel();
+        lblPrecio = new javax.swing.JLabel();
+        lblCantidad = new javax.swing.JLabel();
+        txtFechaRegistro = new javax.swing.JTextField();
+        txtCodigo = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
+        txtDescripcion = new javax.swing.JTextField();
+        txtPrecio = new javax.swing.JTextField();
+        txtCantidad = new javax.swing.JTextField();
+        btnRegistrar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -79,142 +142,142 @@ public class RegistrarProducto extends JInternalFrame {
         setResizable(true);
         setTitle("Registrar Productos");
 
-        jPanel1.addKeyListener(new java.awt.event.KeyAdapter() {
+        lblFechaRegistro.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        lblFechaRegistro.setText("Fecha Registro: ");
+
+        lblCodigo.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        lblCodigo.setText("Código:");
+
+        lblNombre.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        lblNombre.setText("Nombre:");
+
+        lblDescripcion.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        lblDescripcion.setText("Descripción:");
+
+        lblPrecio.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        lblPrecio.setText("Precio:");
+
+        lblCantidad.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        lblCantidad.setText("Cantidad:");
+
+        txtCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                jPanel1KeyTyped(evt);
+                txtCodigoKeyTyped(evt);
             }
         });
 
-        labelFechaRegistro.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        labelFechaRegistro.setText("Fecha Registro: ");
-
-        labelCodigo.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        labelCodigo.setText("Código:");
-
-        labelNombre.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        labelNombre.setText("Nombre:");
-
-        labelDescripcion.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        labelDescripcion.setText("Descripción:");
-
-        labelPrecio.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        labelPrecio.setText("Precio:");
-
-        labelCantidad.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        labelCantidad.setText("Cantidad:");
-
-        textCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                textCodigoKeyTyped(evt);
+                txtNombreKeyTyped(evt);
             }
         });
 
-        textNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtDescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                textNombreKeyTyped(evt);
+                txtDescripcionKeyTyped(evt);
             }
         });
 
-        textDescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                textDescripcionKeyTyped(evt);
+                txtPrecioKeyTyped(evt);
             }
         });
 
-        textPrecio.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                textPrecioKeyTyped(evt);
+                txtCantidadKeyTyped(evt);
             }
         });
 
-        buttonRegistrar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        buttonRegistrar.setText("Registrar");
-        buttonRegistrar.addActionListener(new java.awt.event.ActionListener() {
+        btnRegistrar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        btnRegistrar.setText("Registrar");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonRegistrarActionPerformed(evt);
+                btnRegistrarActionPerformed(evt);
             }
         });
 
-        buttonLimpiar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        buttonLimpiar.setText("Limpiar");
-        buttonLimpiar.addActionListener(new java.awt.event.ActionListener() {
+        btnLimpiar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonLimpiarActionPerformed(evt);
+                btnLimpiarActionPerformed(evt);
             }
         });
 
-        buttonCancelar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        buttonCancelar.setText("Cancelar");
-        buttonCancelar.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonCancelarActionPerformed(evt);
+                btnCancelarActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlDatosLayout = new javax.swing.GroupLayout(pnlDatos);
+        pnlDatos.setLayout(pnlDatosLayout);
+        pnlDatosLayout.setHorizontalGroup(
+            pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDatosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelFechaRegistro)
-                            .addComponent(labelCodigo)
-                            .addComponent(labelNombre)
-                            .addComponent(labelDescripcion)
-                            .addComponent(labelPrecio)
-                            .addComponent(labelCantidad))
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlDatosLayout.createSequentialGroup()
+                        .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblFechaRegistro)
+                            .addComponent(lblCodigo)
+                            .addComponent(lblNombre)
+                            .addComponent(lblDescripcion)
+                            .addComponent(lblPrecio)
+                            .addComponent(lblCantidad))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(textFechaRegistro)
-                            .addComponent(textCodigo)
-                            .addComponent(textNombre)
-                            .addComponent(textDescripcion)
-                            .addComponent(textPrecio)
-                            .addComponent(textCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE))
+                        .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtFechaRegistro)
+                            .addComponent(txtCodigo)
+                            .addComponent(txtNombre)
+                            .addComponent(txtDescripcion)
+                            .addComponent(txtPrecio)
+                            .addComponent(txtCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(buttonRegistrar)
+                    .addGroup(pnlDatosLayout.createSequentialGroup()
+                        .addComponent(btnRegistrar)
                         .addGap(41, 41, 41)
-                        .addComponent(buttonLimpiar)
+                        .addComponent(btnLimpiar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                        .addComponent(buttonCancelar)
+                        .addComponent(btnCancelar)
                         .addGap(29, 29, 29))))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        pnlDatosLayout.setVerticalGroup(
+            pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDatosLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelFechaRegistro)
-                    .addComponent(textFechaRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblFechaRegistro)
+                    .addComponent(txtFechaRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelCodigo)
-                    .addComponent(textCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCodigo)
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelNombre)
-                    .addComponent(textNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNombre)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelDescripcion)
-                    .addComponent(textDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDescripcion)
+                    .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelPrecio)
-                    .addComponent(textPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrecio)
+                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelCantidad)
-                    .addComponent(textCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCantidad)
+                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonRegistrar)
-                    .addComponent(buttonLimpiar)
-                    .addComponent(buttonCancelar))
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRegistrar)
+                    .addComponent(btnLimpiar)
+                    .addComponent(btnCancelar))
                 .addGap(33, 33, 33))
         );
 
@@ -222,87 +285,75 @@ public class RegistrarProducto extends JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegistrarActionPerformed
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        // TODO add your handling code here:
         this.registrar();
-    }//GEN-LAST:event_buttonRegistrarActionPerformed
+    }//GEN-LAST:event_btnRegistrarActionPerformed
 
-    private void buttonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLimpiarActionPerformed
-        this.limpiarCampos();
-    }//GEN-LAST:event_buttonLimpiarActionPerformed
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        // TODO add your handling code here:
+        this.limpiar();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
 
-    private void buttonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelarActionPerformed
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
         this.cancelar();
-    }//GEN-LAST:event_buttonCancelarActionPerformed
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void textCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textCodigoKeyTyped
-        char c = evt.getKeyChar();
-        if (c < '0' || c > '9') {
-            getToolkit().beep();
-            evt.consume();
-        }
-    }//GEN-LAST:event_textCodigoKeyTyped
+    private void txtCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyTyped
+        // TODO add your handling code here:
+        this.validarCodigo(evt);
+    }//GEN-LAST:event_txtCodigoKeyTyped
 
-    private void textPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textPrecioKeyTyped
-        char c = evt.getKeyChar();
-        if (c < '0' || c > '9') {
-            getToolkit().beep();
-            evt.consume();
-        }
-    }//GEN-LAST:event_textPrecioKeyTyped
+    private void txtPrecioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioKeyTyped
+        // TODO add your handling code here:
+        this.validarPrecio(evt);
+    }//GEN-LAST:event_txtPrecioKeyTyped
 
-    private void jPanel1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPanel1KeyTyped
-        char c = evt.getKeyChar();
-        if (c < '0' || c > '9') {
-            getToolkit().beep();
-            evt.consume();
-        }
-    }//GEN-LAST:event_jPanel1KeyTyped
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        // TODO add your handling code here:
+        this.validarNombre(evt);
+    }//GEN-LAST:event_txtNombreKeyTyped
 
-    private void textNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textNombreKeyTyped
-        char c = evt.getKeyChar();
-        if ((c < 'A' || c > 'Z') && (c < 'a' || c > 'z') && (c != (char) KeyEvent.VK_SPACE)) {
-            getToolkit().beep();
-            evt.consume();
-        }
-    }//GEN-LAST:event_textNombreKeyTyped
+    private void txtDescripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyTyped
+        // TODO add your handling code here:
+        this.validarDescripcion(evt);
+    }//GEN-LAST:event_txtDescripcionKeyTyped
 
-    private void textDescripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textDescripcionKeyTyped
-        char c = evt.getKeyChar();
-        if ((c < 'A' || c > 'Z') && (c < 'a' || c > 'z') && (c != (char) KeyEvent.VK_SPACE)) {
-            getToolkit().beep();
-            evt.consume();
-        }
-    }//GEN-LAST:event_textDescripcionKeyTyped
+    private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
+        // TODO add your handling code here:
+        this.validarCantidad(evt);
+    }//GEN-LAST:event_txtCantidadKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buttonCancelar;
-    private javax.swing.JButton buttonLimpiar;
-    private javax.swing.JButton buttonRegistrar;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel labelCantidad;
-    private javax.swing.JLabel labelCodigo;
-    private javax.swing.JLabel labelDescripcion;
-    private javax.swing.JLabel labelFechaRegistro;
-    private javax.swing.JLabel labelNombre;
-    private javax.swing.JLabel labelPrecio;
-    private javax.swing.JTextField textCantidad;
-    private javax.swing.JTextField textCodigo;
-    private javax.swing.JTextField textDescripcion;
-    private javax.swing.JTextField textFechaRegistro;
-    private javax.swing.JTextField textNombre;
-    private javax.swing.JTextField textPrecio;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnRegistrar;
+    private javax.swing.JLabel lblCantidad;
+    private javax.swing.JLabel lblCodigo;
+    private javax.swing.JLabel lblDescripcion;
+    private javax.swing.JLabel lblFechaRegistro;
+    private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblPrecio;
+    private javax.swing.JPanel pnlDatos;
+    private javax.swing.JTextField txtCantidad;
+    private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextField txtDescripcion;
+    private javax.swing.JTextField txtFechaRegistro;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
 }

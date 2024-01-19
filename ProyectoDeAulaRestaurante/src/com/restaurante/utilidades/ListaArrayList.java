@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * @author cyber
  * @param <E> elemento
  */
-public class ListaArrayList<E> implements Lista<E>{
+public class ListaArrayList<E> implements Lista<E> {
 
     private final ArrayList<E> listaArregloElementos;
 

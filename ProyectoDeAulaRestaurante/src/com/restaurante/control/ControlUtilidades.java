@@ -1,13 +1,27 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
+ /*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.restaurante.control;
 
+import com.restaurante.utilidades.Mensajes;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
+/**
+ *
+ * @author cyber
+ */
 public class ControlUtilidades implements Serializable {
 
     private static Integer consecutivo;
@@ -29,11 +43,11 @@ public class ControlUtilidades implements Serializable {
                 ControlUtilidades.consecutivo = 0000;
             }
         } catch (IOException | ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "\nError al leer el archivo", "Error", JOptionPane.ERROR_MESSAGE);
+            Mensajes.mostrarMensajeError("Error al leer el archivo", "Error");
         }
     }
 
-    public static Integer numeroConsecutivo() {
+    public static Integer obtenerNumeroConsecutivo() {
         iniciarConsecutivo();
         if (ControlUtilidades.consecutivo != null) {
             return ControlUtilidades.consecutivo + 1;

@@ -1,7 +1,21 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
+ /*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.restaurante.modelo;
 
 import java.io.Serializable;
 
+/**
+ *
+ * @author cyber
+ */
 public class Empleado extends Persona implements Serializable {
 
     private int sueldo;
@@ -28,11 +42,6 @@ public class Empleado extends Persona implements Serializable {
 
     public Empleado(String identificacion, String nombre, String apellido, String direccion, String telefono, String correoElectronico, String sexo, String fechaRegistro, int sueldo) {
         super(identificacion, nombre, apellido, direccion, telefono, correoElectronico, sexo, fechaRegistro);
-        this.sueldo = sueldo;
-    }
-
-    public Empleado(Persona persona, int sueldo) {
-        super(persona);
         this.sueldo = sueldo;
     }
 

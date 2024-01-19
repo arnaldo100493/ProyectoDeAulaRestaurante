@@ -22,47 +22,47 @@ public class Mensajes {
 
     }
 
-    public static void mostrarMensaje(String mensaje) {
+    public static void mostrarMensaje(Object mensaje) {
         JOptionPane.showMessageDialog(null, mensaje);
     }
 
-    public static void mostrarMensajePlano(String mensaje, String titulo) {
+    public static void mostrarMensajePlano(Object mensaje, String titulo) {
         JOptionPane.showMessageDialog(null, mensaje, titulo, JOptionPane.PLAIN_MESSAGE);
     }
 
-    public static void mostrarMensajeInformativo(String mensaje, String titulo) {
+    public static void mostrarMensajeInformativo(Object mensaje, String titulo) {
         JOptionPane.showMessageDialog(null, mensaje, titulo, JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public static void mostrarMensajeAdvertencia(String mensaje, String titulo) {
+    public static void mostrarMensajeAdvertencia(Object mensaje, String titulo) {
         JOptionPane.showMessageDialog(null, mensaje, titulo, JOptionPane.WARNING_MESSAGE);
     }
 
-    public static void mostrarMensajeError(String mensaje, String titulo) {
+    public static void mostrarMensajeError(Object mensaje, String titulo) {
         JOptionPane.showMessageDialog(null, mensaje, titulo, JOptionPane.ERROR_MESSAGE);
     }
 
-    public static void mostrarMensajeConfirmacion(String mensaje) {
+    public static void mostrarMensajeConfirmacion(Object mensaje) {
         JOptionPane.showConfirmDialog(null, mensaje);
     }
 
-    public static int mostrarMensajeConfirmacion(String mensaje, String titulo) {
+    public static int mostrarMensajeConfirmacion(Object mensaje, String titulo) {
         return JOptionPane.showConfirmDialog(null, mensaje, titulo, JOptionPane.YES_NO_CANCEL_OPTION);
     }
 
-    public static String mostrarMensajeEntrada(String mensaje) {
+    public static String mostrarMensajeEntrada(Object mensaje) {
         return JOptionPane.showInputDialog(null, mensaje);
     }
 
-    public static String mostrarMensajeEntrada(String mensaje, String titulo) {
+    public static String mostrarMensajeEntrada(Object mensaje, String titulo) {
         return JOptionPane.showInputDialog(null, mensaje, titulo, JOptionPane.QUESTION_MESSAGE);
     }
 
-    public static int mostrarMensajeOpcion(String mensaje, String titulo) {
+    public static int mostrarMensajeOpcion(Object mensaje, String titulo) {
         return JOptionPane.showOptionDialog(null, mensaje, titulo, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"SI", "NO"}, "SI");
     }
 
-    public static int mostrarMensajeOpcionYCancelar(String mensaje, String titulo) {
+    public static int mostrarMensajeOpcionYCancelar(Object mensaje, String titulo) {
         return JOptionPane.showOptionDialog(null, mensaje, titulo, JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"SI", "NO"}, "SI");
     }
 }

@@ -1,5 +1,19 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
+ /*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.restaurante.control;
 
+import com.restaurante.modelo.Producto;
+import com.restaurante.utilidades.Lista;
+import com.restaurante.utilidades.ListaLinkedList;
+import com.restaurante.utilidades.Mensajes;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -9,11 +23,11 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import com.restaurante.modelo.Producto;
-import com.restaurante.utilidades.Lista;
-import com.restaurante.utilidades.ListaLinkedList;
-import com.restaurante.utilidades.Mensajes;
 
+/**
+ *
+ * @author cyber
+ */
 public class ControlProducto implements Controlador, Serializable {
 
     private static Lista<Producto> listadoProductos;

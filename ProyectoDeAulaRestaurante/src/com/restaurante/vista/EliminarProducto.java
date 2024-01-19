@@ -1,98 +1,129 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
+ /*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.restaurante.vista;
 
 import com.restaurante.control.Controlador;
 import com.restaurante.control.ControlProducto;
-import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
 import com.restaurante.modelo.Producto;
+import com.restaurante.utilidades.Mensajes;
 
-public class EliminarProducto extends JInternalFrame {
+/**
+ *
+ * @author cyber
+ */
+public class EliminarProducto extends javax.swing.JInternalFrame {
 
-    Controlador<Producto> controladorProducto = new ControlProducto();
-    Producto busquedaProducto = new Producto();
+    private final Controlador<Producto> controladorProducto;
 
+    /**
+     * Creates new form EliminarProducto
+     */
     public EliminarProducto() {
         initComponents();
+        this.controladorProducto = new ControlProducto();
         this.controladorProducto.cargarDatos();
     }
 
-    public void limpiarCampos() {
-        this.textDigiteCodigo.setText("");
-        this.textCodigo.setText("");
-        this.textNombre.setText("");
-        this.textDescripcion.setText("");
-        this.textPrecio.setText("");
-        this.textCantidad.setText("");
-        this.textFechaRegistro.setText("");
+    private void validarCodigo(java.awt.event.KeyEvent evt) {
+        char c = evt.getKeyChar();
+        if (c < '0' || c > '9') {
+            getToolkit().beep();
+            evt.consume();
+        }
     }
 
-    public void consultar() {
-        if (this.textDigiteCodigo.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No ha escrito ningún código", "Advertencia", JOptionPane.WARNING_MESSAGE);
+    private void limpiar() {
+        this.txtDigiteCodigo.setText("");
+        this.txtCodigo.setText("");
+        this.txtNombre.setText("");
+        this.txtDescripcion.setText("");
+        this.txtPrecio.setText("");
+        this.txtCantidad.setText("");
+        this.txtFechaRegistro.setText("");
+    }
+
+    private void consultar() {
+        Producto busquedaProducto = null;
+        if (this.txtDigiteCodigo.getText().isEmpty()) {
+            Mensajes.mostrarMensajeAdvertencia("No ha escrito ningún código", "Advertencia");
         } else {
-            this.busquedaProducto = this.controladorProducto.consultar(this.textDigiteCodigo.getText());
-            if (this.busquedaProducto != null) {
-                this.textCodigo.setText(String.valueOf(this.busquedaProducto.getCodigo()));
-                this.textNombre.setText(this.busquedaProducto.getNombre());
-                this.textDescripcion.setText(this.busquedaProducto.getDescripcion());
-                this.textPrecio.setText(String.valueOf(this.busquedaProducto.getPrecio()));
-                this.textCantidad.setText(String.valueOf(this.busquedaProducto.getCantidad()));
-                this.textFechaRegistro.setText(this.busquedaProducto.getFechaRegistro());
+            busquedaProducto = this.controladorProducto.consultar(this.txtDigiteCodigo.getText());
+            if (busquedaProducto != null) {
+                this.txtCodigo.setText(String.valueOf(busquedaProducto.getCodigo()));
+                this.txtNombre.setText(busquedaProducto.getNombre());
+                this.txtDescripcion.setText(busquedaProducto.getDescripcion());
+                this.txtPrecio.setText(String.valueOf(busquedaProducto.getPrecio()));
+                this.txtCantidad.setText(String.valueOf(busquedaProducto.getCantidad()));
+                this.txtFechaRegistro.setText(busquedaProducto.getFechaRegistro());
             } else {
-                this.limpiarCampos();
+                this.limpiar();
             }
         }
     }
 
-    public void cancelar() {
+    private void cancelar() {
         this.dispose();
     }
 
-    public void eliminar() {
-        if (this.textDigiteCodigo.getText().isEmpty() || this.textCodigo.getText().isEmpty() || this.textNombre.getText().isEmpty() || this.textDescripcion.getText().isEmpty() || this.textPrecio.getText().isEmpty() || this.textCantidad.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No se ha consultado el producto", "Advertencia", JOptionPane.WARNING_MESSAGE);
-            this.limpiarCampos();
+    private void eliminar() {
+        Producto busquedaProducto = null;
+        if (this.txtDigiteCodigo.getText().isEmpty() || this.txtCodigo.getText().isEmpty() || this.txtNombre.getText().isEmpty() || this.txtDescripcion.getText().isEmpty() || this.txtPrecio.getText().isEmpty() || this.txtCantidad.getText().isEmpty()) {
+            Mensajes.mostrarMensajeAdvertencia("No se ha consultado el producto", "Advertencia");
+            this.limpiar();
         } else {
-            this.busquedaProducto = this.controladorProducto.consultar(this.textDigiteCodigo.getText());
-            if (this.busquedaProducto != null) {
-                this.busquedaProducto.setCodigo(this.textCodigo.getText());
-                this.busquedaProducto.setNombre(this.textNombre.getText());
-                this.busquedaProducto.setDescripcion(this.textDescripcion.getText());
-                this.busquedaProducto.setPrecio(Integer.parseInt(this.textPrecio.getText()));
-                this.busquedaProducto.setCantidad(Integer.parseInt(this.textCantidad.getText()));
-                this.busquedaProducto.setFechaRegistro(this.textFechaRegistro.getText());
-                this.controladorProducto.eliminar(this.busquedaProducto.getCodigo());
-                this.limpiarCampos();
+            busquedaProducto = this.controladorProducto.consultar(this.txtDigiteCodigo.getText());
+            if (busquedaProducto != null) {
+                busquedaProducto.setCodigo(this.txtCodigo.getText());
+                busquedaProducto.setNombre(this.txtNombre.getText());
+                busquedaProducto.setDescripcion(this.txtDescripcion.getText());
+                busquedaProducto.setPrecio(Integer.parseInt(this.txtPrecio.getText()));
+                busquedaProducto.setCantidad(Integer.parseInt(this.txtCantidad.getText()));
+                busquedaProducto.setFechaRegistro(this.txtFechaRegistro.getText());
+                controladorProducto.eliminar(busquedaProducto.getCodigo());
+                this.limpiar();
             } else {
-                this.limpiarCampos();
+                this.limpiar();
             }
         }
     }
 
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        labelDigiteCodigo = new javax.swing.JLabel();
-        labelCodigo = new javax.swing.JLabel();
-        labelNombre = new javax.swing.JLabel();
-        labelDescripcion = new javax.swing.JLabel();
-        labelPrecio = new javax.swing.JLabel();
-        labelCantidad = new javax.swing.JLabel();
-        labelFechaRegistro = new javax.swing.JLabel();
-        textDigiteCodigo = new javax.swing.JTextField();
-        textCodigo = new javax.swing.JTextField();
-        textNombre = new javax.swing.JTextField();
-        textDescripcion = new javax.swing.JTextField();
-        textPrecio = new javax.swing.JTextField();
-        textCantidad = new javax.swing.JTextField();
-        textFechaRegistro = new javax.swing.JTextField();
-        buttonConsultar = new javax.swing.JButton();
-        buttonConsultaCancelar = new javax.swing.JButton();
-        buttonEliminar = new javax.swing.JButton();
-        buttonLimpiar = new javax.swing.JButton();
-        buttonCancelar = new javax.swing.JButton();
+        pnlDatos = new javax.swing.JPanel();
+        lblDigiteCodigo = new javax.swing.JLabel();
+        lblCodigo = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
+        lblDescripcion = new javax.swing.JLabel();
+        lblPrecio = new javax.swing.JLabel();
+        lblCantidad = new javax.swing.JLabel();
+        lblFechaRegistro = new javax.swing.JLabel();
+        txtDigiteCodigo = new javax.swing.JTextField();
+        txtCodigo = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
+        txtDescripcion = new javax.swing.JTextField();
+        txtPrecio = new javax.swing.JTextField();
+        txtCantidad = new javax.swing.JTextField();
+        txtFechaRegistro = new javax.swing.JTextField();
+        btnConsultar = new javax.swing.JButton();
+        btnConsultaCancelar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -100,180 +131,180 @@ public class EliminarProducto extends JInternalFrame {
         setResizable(true);
         setTitle("Eliminar Productos");
 
-        labelDigiteCodigo.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        labelDigiteCodigo.setText("Digíte Código:");
+        lblDigiteCodigo.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        lblDigiteCodigo.setText("Digíte Código:");
 
-        labelCodigo.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        labelCodigo.setText("Código:");
+        lblCodigo.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        lblCodigo.setText("Código:");
 
-        labelNombre.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        labelNombre.setText("Nombre:");
+        lblNombre.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        lblNombre.setText("Nombre:");
 
-        labelDescripcion.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        labelDescripcion.setText("Descripción:");
+        lblDescripcion.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        lblDescripcion.setText("Descripción:");
 
-        labelPrecio.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        labelPrecio.setText("Precio:");
+        lblPrecio.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        lblPrecio.setText("Precio:");
 
-        labelCantidad.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        labelCantidad.setText("Cantidad:");
+        lblCantidad.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        lblCantidad.setText("Cantidad:");
 
-        labelFechaRegistro.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        labelFechaRegistro.setText("Fecha Registro:");
+        lblFechaRegistro.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        lblFechaRegistro.setText("Fecha Registro:");
 
-        textDigiteCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtDigiteCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                textDigiteCodigoKeyTyped(evt);
+                txtDigiteCodigoKeyTyped(evt);
             }
         });
 
-        textCodigo.setEditable(false);
+        txtCodigo.setEditable(false);
 
-        textNombre.setEditable(false);
+        txtNombre.setEditable(false);
 
-        textDescripcion.setEditable(false);
+        txtDescripcion.setEditable(false);
 
-        textPrecio.setEditable(false);
+        txtPrecio.setEditable(false);
 
-        textCantidad.setEditable(false);
+        txtCantidad.setEditable(false);
 
-        textFechaRegistro.setEditable(false);
+        txtFechaRegistro.setEditable(false);
 
-        buttonConsultar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        buttonConsultar.setText("Consultar");
-        buttonConsultar.addActionListener(new java.awt.event.ActionListener() {
+        btnConsultar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        btnConsultar.setText("Consultar");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonConsultarActionPerformed(evt);
+                btnConsultarActionPerformed(evt);
             }
         });
 
-        buttonConsultaCancelar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        buttonConsultaCancelar.setText("Cancelar");
-        buttonConsultaCancelar.addActionListener(new java.awt.event.ActionListener() {
+        btnConsultaCancelar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        btnConsultaCancelar.setText("Cancelar");
+        btnConsultaCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonConsultaCancelarActionPerformed(evt);
+                btnConsultaCancelarActionPerformed(evt);
             }
         });
 
-        buttonEliminar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        buttonEliminar.setText("Eliminar");
-        buttonEliminar.addActionListener(new java.awt.event.ActionListener() {
+        btnEliminar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonEliminarActionPerformed(evt);
+                btnEliminarActionPerformed(evt);
             }
         });
 
-        buttonLimpiar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        buttonLimpiar.setText("Limpiar");
-        buttonLimpiar.addActionListener(new java.awt.event.ActionListener() {
+        btnLimpiar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonLimpiarActionPerformed(evt);
+                btnLimpiarActionPerformed(evt);
             }
         });
 
-        buttonCancelar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        buttonCancelar.setText("Cancelar");
-        buttonCancelar.addActionListener(new java.awt.event.ActionListener() {
+        btnCancelar.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonCancelarActionPerformed(evt);
+                btnCancelarActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlDatosLayout = new javax.swing.GroupLayout(pnlDatos);
+        pnlDatos.setLayout(pnlDatosLayout);
+        pnlDatosLayout.setHorizontalGroup(
+            pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDatosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(labelCodigo)
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnlDatosLayout.createSequentialGroup()
+                        .addComponent(lblCodigo)
                         .addGap(50, 50, 50)
-                        .addComponent(textCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(labelPrecio)
+                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlDatosLayout.createSequentialGroup()
+                            .addComponent(lblPrecio)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(textPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(labelCantidad)
+                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlDatosLayout.createSequentialGroup()
+                            .addComponent(lblCantidad)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(textCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(labelDigiteCodigo)
-                                .addComponent(labelNombre)
-                                .addComponent(labelDescripcion))
+                            .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlDatosLayout.createSequentialGroup()
+                            .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblDigiteCodigo)
+                                .addComponent(lblNombre)
+                                .addComponent(lblDescripcion))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(textDigiteCodigo)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(buttonConsultar)
+                            .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(pnlDatosLayout.createSequentialGroup()
+                                    .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtDigiteCodigo)
+                                        .addGroup(pnlDatosLayout.createSequentialGroup()
+                                            .addComponent(btnConsultar)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                                            .addComponent(buttonConsultaCancelar)))
+                                            .addComponent(btnConsultaCancelar)))
                                     .addGap(0, 0, Short.MAX_VALUE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlDatosLayout.createSequentialGroup()
                                     .addGap(0, 0, Short.MAX_VALUE)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(textDescripcion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(textNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(labelFechaRegistro)
-                                .addComponent(buttonEliminar))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtDescripcion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGroup(pnlDatosLayout.createSequentialGroup()
+                            .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblFechaRegistro)
+                                .addComponent(btnEliminar))
+                            .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(pnlDatosLayout.createSequentialGroup()
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(textFechaRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(txtFechaRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(pnlDatosLayout.createSequentialGroup()
                                     .addGap(17, 17, 17)
-                                    .addComponent(buttonLimpiar)
+                                    .addComponent(btnLimpiar)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(buttonCancelar))))))
+                                    .addComponent(btnCancelar))))))
                 .addContainerGap(67, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        pnlDatosLayout.setVerticalGroup(
+            pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDatosLayout.createSequentialGroup()
                 .addGap(34, 34, 34)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelDigiteCodigo)
-                    .addComponent(textDigiteCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDigiteCodigo)
+                    .addComponent(txtDigiteCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonConsultar)
-                    .addComponent(buttonConsultaCancelar))
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnConsultar)
+                    .addComponent(btnConsultaCancelar))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelCodigo)
-                    .addComponent(textCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCodigo)
+                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelNombre)
-                    .addComponent(textNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNombre)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelDescripcion)
-                    .addComponent(textDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDescripcion)
+                    .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelPrecio)
-                    .addComponent(textPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblPrecio)
+                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelCantidad)
-                    .addComponent(textCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCantidad)
+                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelFechaRegistro)
-                    .addComponent(textFechaRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblFechaRegistro)
+                    .addComponent(txtFechaRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonEliminar)
-                    .addComponent(buttonLimpiar)
-                    .addComponent(buttonCancelar))
+                .addGroup(pnlDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEliminar)
+                    .addComponent(btnLimpiar)
+                    .addComponent(btnCancelar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -281,65 +312,67 @@ public class EliminarProducto extends JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(pnlDatos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void textDigiteCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textDigiteCodigoKeyTyped
-        char c = evt.getKeyChar();
-        if (c < '0' || c > '9') {
-            getToolkit().beep();
-            evt.consume();
-        }
-    }//GEN-LAST:event_textDigiteCodigoKeyTyped
+    private void txtDigiteCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDigiteCodigoKeyTyped
+        // TODO add your handling code here:
+        this.validarCodigo(evt);
+    }//GEN-LAST:event_txtDigiteCodigoKeyTyped
 
-    private void buttonConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConsultarActionPerformed
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        // TODO add your handling code here:
         this.consultar();
-    }//GEN-LAST:event_buttonConsultarActionPerformed
+    }//GEN-LAST:event_btnConsultarActionPerformed
 
-    private void buttonConsultaCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConsultaCancelarActionPerformed
-        this.limpiarCampos();
-    }//GEN-LAST:event_buttonConsultaCancelarActionPerformed
+    private void btnConsultaCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultaCancelarActionPerformed
+        // TODO add your handling code here:
+        this.limpiar();
+    }//GEN-LAST:event_btnConsultaCancelarActionPerformed
 
-    private void buttonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEliminarActionPerformed
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
         this.eliminar();
-    }//GEN-LAST:event_buttonEliminarActionPerformed
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void buttonLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLimpiarActionPerformed
-        this.limpiarCampos();
-    }//GEN-LAST:event_buttonLimpiarActionPerformed
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        // TODO add your handling code here:
+        this.limpiar();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
 
-    private void buttonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCancelarActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_buttonCancelarActionPerformed
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        this.cancelar();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buttonCancelar;
-    private javax.swing.JButton buttonConsultaCancelar;
-    private javax.swing.JButton buttonConsultar;
-    private javax.swing.JButton buttonEliminar;
-    private javax.swing.JButton buttonLimpiar;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel labelCantidad;
-    private javax.swing.JLabel labelCodigo;
-    private javax.swing.JLabel labelDescripcion;
-    private javax.swing.JLabel labelDigiteCodigo;
-    private javax.swing.JLabel labelFechaRegistro;
-    private javax.swing.JLabel labelNombre;
-    private javax.swing.JLabel labelPrecio;
-    private javax.swing.JTextField textCantidad;
-    private javax.swing.JTextField textCodigo;
-    private javax.swing.JTextField textDescripcion;
-    private javax.swing.JTextField textDigiteCodigo;
-    private javax.swing.JTextField textFechaRegistro;
-    private javax.swing.JTextField textNombre;
-    private javax.swing.JTextField textPrecio;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnConsultaCancelar;
+    private javax.swing.JButton btnConsultar;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JLabel lblCantidad;
+    private javax.swing.JLabel lblCodigo;
+    private javax.swing.JLabel lblDescripcion;
+    private javax.swing.JLabel lblDigiteCodigo;
+    private javax.swing.JLabel lblFechaRegistro;
+    private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblPrecio;
+    private javax.swing.JPanel pnlDatos;
+    private javax.swing.JTextField txtCantidad;
+    private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextField txtDescripcion;
+    private javax.swing.JTextField txtDigiteCodigo;
+    private javax.swing.JTextField txtFechaRegistro;
+    private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtPrecio;
     // End of variables declaration//GEN-END:variables
 }

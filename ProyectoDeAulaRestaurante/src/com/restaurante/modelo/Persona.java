@@ -1,7 +1,21 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
+ /*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.restaurante.modelo;
 
 import java.io.Serializable;
 
+/**
+ *
+ * @author cyber
+ */
 public abstract class Persona implements Serializable {
 
     protected String identificacion;
@@ -54,17 +68,6 @@ public abstract class Persona implements Serializable {
         this.correoElectronico = correoElectronico;
         this.sexo = sexo;
         this.fechaRegistro = fechaRegistro;
-    }
-
-    public Persona(Persona persona) {
-        this.identificacion = persona.getIdentificacion();
-        this.nombre = persona.getNombre();
-        this.apellido = persona.getApellido();
-        this.direccion = persona.getDireccion();
-        this.telefono = persona.getTelefono();
-        this.correoElectronico = persona.getCorreoElectronico();
-        this.sexo = persona.getSexo();
-        this.fechaRegistro = persona.getFechaRegistro();
     }
 
     public String mostrarPersona() {
