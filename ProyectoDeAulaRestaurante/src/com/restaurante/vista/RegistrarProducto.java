@@ -106,7 +106,7 @@ public class RegistrarProducto extends javax.swing.JInternalFrame {
         }
     }
 
-    public void cancelar() {
+    private void cancelar() {
         this.dispose();
     }
 
